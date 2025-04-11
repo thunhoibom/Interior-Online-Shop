@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title th:fragment="title">Index - Yummy Bootstrap Template</title>
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+
+  <!-- Favicons -->
+  <link th:href="@{/assets/img/favicon.png}" rel="icon">
+  <link th:href="@{/assets/img/apple-touch-icon.png}" rel="apple-touch-icon">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link
+          href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Amatic+SC:wght@400;700&display=swap"
+          rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link th:href="@{/assets/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+  <link th:href="@{/assets/vendor/bootstrap-icons/bootstrap-icons.css}" rel="stylesheet">
+  <link th:href="@{/assets/vendor/aos/aos.css}" rel="stylesheet">
+  <link th:href="@{/assets/vendor/glightbox/css/glightbox.min.css}" rel="stylesheet">
+  <link th:href="@{/assets/vendor/swiper/swiper-bundle.min.css}" rel="stylesheet">
+
+  <!-- Main CSS File -->
+  <link th:href="@{/assets/css/main.css}" rel="stylesheet">
+
+  <!-- Template Metadata (as a comment) -->
+  <!-- =======================================================
+  * Template Name: Yummy
+  * Template URL: https://bootstrapmade.com/yummy-bootstrap-restaurant-website-template/
+  * Updated: Aug 07 2024 with Bootstrap v5.3.3
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+  <style>
+    .product-image {
+            max-height: 400px;
+            object-fit: cover;
+        }
+        .thumbnail {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            cursor: pointer;
+            opacity: 0.6;
+            transition: opacity 0.3s ease;
+        }
+        .thumbnail:hover, .thumbnail.active {
+            opacity: 1;
+        }
+  </style>
+
+</head>
+<body>
+<header th:replace="index::header"></header>
+<div th:replace="index::navbar"></div>
+<div class="container mt-5">
+  <div class="row">
+    <!-- Product Images -->
+    <div class="col-md-6 mb-4" th:object="${product}">
+      <img th:src="@{*{product_images[0].image_url}}" alt="Product" class="img-fluid rounded mb-3 product-image" id="mainImage">
+      <div class="d-flex justify-content-between">
+        <img th:src="@{*{product_images[0].image_url}}" alt="Thumbnail 1" class="thumbnail rounded active" onclick="changeImage(event, this.src)">
+        <img src="https://images.unsplash.com/photo-1528148343865-51218c4a13e6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NzEyNjZ8MHwxfHNlYXJjaHwzfHxoZWFkcGhvbmV8ZW58MHwwfHx8MTcyMTMwMzY5MHww&ixlib=rb-4.0.3&q=80&w=1080" alt="Thumbnail 2" class="thumbnail rounded" onclick="changeImage(event, this.src)">
+        <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NzEyNjZ8MHwxfHNlYXJjaHwxfHxoZWFkcGhvbmV8ZW58MHwwfHx8MTcyMTMwMzY5MHww&ixlib=rb-4.0.3&q=80&w=1080" alt="Thumbnail 3" class="thumbnail rounded" onclick="changeImage(event, this.src)">
+        <img src="https://images.unsplash.com/photo-1528148343865-51218c4a13e6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NzEyNjZ8MHwxfHNlYXJjaHwzfHxoZWFkcGhvbmV8ZW58MHwwfHx8MTcyMTMwMzY5MHww&ixlib=rb-4.0.3&q=80&w=1080" alt="Thumbnail 4" class="thumbnail rounded" onclick="changeImage(event, this.src)">
+      </div>
+    </div>
+
+    <!-- Product Details -->
+    <div class="col-md-6" th:object="${product}">
+      <h2 class="mb-3" th:text="${product.name}"></h2>
+      <p class="text-muted mb-3" th:text="'MSP:' + *{product_id} "></p>
+      <div class="mb-3">
+        <span class="h4 mb-0 mr-5">Kích thước: </span>
+        <span class="text-muted" th:text="*{size} "></span>
+      </div>
+      <div class="mb-3">
+        <span class="h4 mb-0 mr-5">Vật liệu: </span>
+        <span class="text-muted" th:text="*{material} "></span>
+      </div>
+      <div class="mb-3">
+        <span class="mb-0 mr-5" th:text="*{is_active}?'Hàng có sẵn':'Hàng không có sẵn'"></span>
+      </div>
+      <div class="mb-3">
+        <span class="h4 me-2" th:text="${#numbers.formatDecimal(product.price,0, 'COMMA', 0, 'POINT')}+'₫'"></span>
+        <span class="text-muted"><s th:text="${#numbers.formatDecimal(product.price,0, 'COMMA', 0, 'POINT')}+'₫'"></s></span>
+      </div>
+      <div class="mb-3">
+        <i class="bi bi-star-fill text-warning"></i>
+        <i class="bi bi-star-fill text-warning"></i>
+        <i class="bi bi-star-fill text-warning"></i>
+        <i class="bi bi-star-fill text-warning"></i>
+        <i class="bi bi-star-half text-warning"></i>
+        <span class="ms-2">4.5 (120 reviews)</span>
+      </div>
+      <p class="mb-4">Experience premium sound quality and industry-leading noise cancellation with these wireless
+        headphones. Perfect for music lovers and frequent travelers.</p>
+      <div class="mb-4">
+        <h5>Color:</h5>
+        <div class="btn-group" role="group" aria-label="Color selection">
+          <input type="radio" class="btn-check" name="color" id="black" autocomplete="off" checked>
+          <label class="btn btn-outline-dark" for="black">Black</label>
+          <input type="radio" class="btn-check" name="color" id="silver" autocomplete="off">
+          <label class="btn btn-outline-secondary" for="silver">Silver</label>
+          <input type="radio" class="btn-check" name="color" id="blue" autocomplete="off">
+          <label class="btn btn-outline-primary" for="blue">Blue</label>
+        </div>
+      </div>
+      <div class="mb-4">
+        <label for="quantity" class="form-label">Quantity:</label>
+        <input type="number" class="form-control" id="quantity" value="1" min="1" style="width: 80px;">
+      </div>
+      <button class="btn btn-primary btn-lg mb-3 me-2">
+        <i class="bi bi-cart-plus"></i> Add to Cart
+      </button>
+      <button class="btn btn-outline-secondary btn-lg mb-3">
+        <i class="bi bi-heart"></i> Add to Wishlist
+      </button>
+      <div class="mt-4">
+        <h5>Key Features:</h5>
+        <ul>
+          <li>Industry-leading noise cancellation</li>
+          <li>30-hour battery life</li>
+          <li>Touch sensor controls</li>
+          <li>Speak-to-chat technology</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script th:src="@{https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js}"></script>
+<script>
+  function changeImage(event, src) {
+          document.getElementById('mainImage').src = src;
+          document.querySelectorAll('.thumbnail').forEach(thumb => thumb.classList.remove('active'));
+          event.target.classList.add('active');
+      }
+</script>
+</body>
+</html>
