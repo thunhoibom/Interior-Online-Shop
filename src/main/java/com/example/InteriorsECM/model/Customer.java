@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "customers")
+@Table(name = "customer")
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,5 +22,7 @@ public class Customer {
     String province;
     String district;
     String commune;
-    int user_id;
+    @OneToOne
+    @JoinColumn(name="user_id")
+    User user;
 }

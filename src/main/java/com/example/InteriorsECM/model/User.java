@@ -20,5 +20,9 @@ public class User {
     String username;
     String password_hash;
     String email;
-    String role;
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    Customer customer;
+    @OneToOne
+    @JoinColumn(name="role_id")
+    Role role;
 }

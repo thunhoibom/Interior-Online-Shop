@@ -25,7 +25,6 @@
 
   <!-- Main CSS File -->
   <link href="assets/css/main.css" rel="stylesheet">
-
   <!-- =======================================================
   * Template Name: Yummy
   * Template URL: https://bootstrapmade.com/yummy-bootstrap-restaurant-website-template/
@@ -71,12 +70,48 @@
 
   </header>
   <div th:fragment="navbar" class="container">
+      <hr/>
     <ul class="nav">
-      <li class="nav-item">
-        <a class="nav-link text-secondary" th:href="@{/menu/products}"><i class="bi bi-box-seam me-1"></i> Products</a>
+      <li class="dropdown" th:onclick="|window.location.href='@{/menu/products}'|">
+        <div class="nav-link text-secondary" data-mdb-button-init
+           data-mdb-ripple-init data-mdb-dropdown-init
+           type="button"
+           id="dropdownMenuLink"
+           data-mdb-toggle="dropdown"
+           aria-expanded="false" >
+          Sản phẩm
+        </div>
+
+        <div class="dropdown-menu custom-dropdown rounded-0" aria-labelledby="dropdownMenuLink">
+            <div class="row justify-content-start">
+                <div class="col-md-2 col-6">
+                    <span><a class="dropdown-item" href="#">Sofa</a></span>
+                    <span><a class="dropdown-item" href="#">Sofa góc</a></span>
+                    <span><a class="dropdown-item" href="#">Armchair</a></span>
+                </div>
+                <div class="col-md-2 col-6">
+                    <span><a class="dropdown-item" href="#">Sofa</a></span>
+                    <span><a class="dropdown-item" href="#">Sofa góc</a></span>
+                    <span><a class="dropdown-item" href="#">Armchair</a></span>
+                </div>
+                <div class="col-md-2 col-6">
+                    <span><a class="dropdown-item" href="#">Sofa</a></span>
+                    <span><a class="dropdown-item" href="#">Sofa góc</a></span>
+                    <span><a class="dropdown-item" href="#">Armchair</a></span>
+                </div>
+                <div class="col-md-2 col-6">
+                    <span><a class="dropdown-item" href="#">Sofa</a></span>
+                    <span><a class="dropdown-item" href="#">Sofa góc</a></span>
+                    <span><a class="dropdown-item" href="#">Armchair</a></span>
+                </div>
+                <div class="col-sm-3 col-md-4">
+                    <img class="w-100" src="https://nhaxinh.com/wp-content/uploads/2024/08/BST-Orientale-600x400.jpg" alt="room"/>
+                </div>
+            </div>
+        </div>
       </li>
       <li class="nav-item">
-        <a class="nav-link text-secondary" href="#"><i class="bi bi-house-door me-1"></i> Rooms</a>
+        <a class="nav-link text-secondary" href="#">Rooms</a>
       </li>
       <li class="nav-item">
         <a class="nav-link text-secondary" href="#">Deals</a>
@@ -87,19 +122,8 @@
       <li class="nav-item">
         <a class="nav-link text-secondary" href="#">Home accessories</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link text-secondary" href="#">Ideas & inspiration</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link text-secondary" href="#">Design & planning</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link text-secondary" href="#">IKEA for Business</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link text-secondary" href="#">Services <i class="bi bi-chevron-down"></i></a>
-      </li>
     </ul>
+      <hr/>
   </div>
 
   <main class="main">

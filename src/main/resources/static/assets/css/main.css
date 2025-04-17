@@ -1647,10 +1647,25 @@ section,
 .contact .php-email-form button[type=submit]:hover {
   background: color-mix(in srgb, var(--accent-color), transparent 20%);
 }
+.dropdown:hover>.dropdown-menu {
+  display: block;
+}
 
+.dropdown>.dropdown-toggle:active {
+  /*Without this, clicking will make it sticky*/
+    pointer-events: none;
+}
+.custom-dropdown {
+            width: 75vw !important; /* Viewport-based width */
+            min-width: 0 !important;
+            position: absolute !important;
+            padding: 1.5rem; /* Add padding for spacing */
+        }
 /*--------------------------------------------------------------
 # Starter Section Section
 --------------------------------------------------------------*/
 .starter-section {
   /* Add your styles here */
+
 }
+
