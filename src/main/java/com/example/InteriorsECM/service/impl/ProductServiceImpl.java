@@ -25,4 +25,9 @@ public class ProductServiceImpl implements ProductService {
     public ProductDto findProductById(int product_id){
         return ProductConverter.mapToProductDto(productRepository.findById(product_id).get());
     }
+    @Override
+    public List<ProductDto> searchProductsByName(String name){
+        List<Product> products = productRepository.searchProductsByName(name);
+        return products.stream().map(product -> ProductConverter.mapToProductDto(product)).collect(Collectors.toList());
+    }
 }

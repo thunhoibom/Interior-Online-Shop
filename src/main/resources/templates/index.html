@@ -50,8 +50,8 @@
         <ul>
           <li><a href="#hero" class="active">Home<br></a></li>
           <li>
-            <form class="form-outline my-2 my-lg-0">
-              <input class="form-control mr-sm-2 rounded-pill" type="search" placeholder="Bạn đang nghĩ gì ?">
+            <form class="form-outline my-2 my-lg-0" th:action="@{/menu/products}">
+              <input class="form-control mr-sm-2 rounded-pill" type="search" th:name="name" placeholder="Bạn đang nghĩ gì ?">
             </form>
           </li>
         </ul>
@@ -69,10 +69,9 @@
     </div>
 
   </header>
-  <div th:fragment="navbar" class="container">
-      <hr/>
+  <div th:fragment="navbar" class="container ">
     <ul class="nav">
-      <li class="dropdown" th:onclick="|window.location.href='@{/menu/products}'|">
+      <li class="dropdown" style="" th:onclick="|window.location.href='@{/menu/products}'|">
         <div class="nav-link text-secondary" data-mdb-button-init
            data-mdb-ripple-init data-mdb-dropdown-init
            type="button"
@@ -82,7 +81,7 @@
           Sản phẩm
         </div>
 
-        <div class="dropdown-menu custom-dropdown rounded-0" aria-labelledby="dropdownMenuLink">
+        <div class="dropdown-menu custom-dropdown fade-in rounded-0" aria-labelledby="dropdownMenuLink">
             <div class="row justify-content-start">
                 <div class="col-md-2 col-6">
                     <span><a class="dropdown-item" href="#">Sofa</a></span>
@@ -123,7 +122,6 @@
         <a class="nav-link text-secondary" href="#">Home accessories</a>
       </li>
     </ul>
-      <hr/>
   </div>
 
   <main class="main">
