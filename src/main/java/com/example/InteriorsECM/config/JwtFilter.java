@@ -36,8 +36,11 @@ public class JwtFilter extends OncePerRequestFilter {
 
 
         String requestURI = request.getRequestURI();
-        if (requestURI.equals("/login") || requestURI.equals("/register") || requestURI.equals("/menu") ||
-                requestURI.startsWith("/assets/")) {
+        if (requestURI.equals("/login")
+                || requestURI.equals("/register")
+                || requestURI.equals("/menu")
+                || requestURI.startsWith("/assets/")
+                || requestURI.equals("/admin/login")) {
             filterChain.doFilter(request, response);
             return;
         }
@@ -61,7 +64,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
             if(jwtService.validateToken(token, userDetails)){
                 UsernamePasswordAuthenticationToken authToken
-                        = new UsernamePasswordAuthenticationToken(userDetails,null, userDetails.getAuthorities());
+                        = new UsernamePasswordAuthenticationToken(userDetails,token, userDetails.getAuthorities());
 
                 authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authToken);

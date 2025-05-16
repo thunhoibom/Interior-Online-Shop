@@ -35,13 +35,15 @@ public class securityConfig {
                         .requestMatchers("/assets/**").permitAll()
                         .requestMatchers("/menu").permitAll()
                         .requestMatchers("/register","/login").permitAll()
+                        .requestMatchers("/admin/login").permitAll()
                         .requestMatchers("/menu/products").hasAuthority("CUSTOMER")
+                        .requestMatchers("/admin/dashboard","/admin/san-pham").hasAuthority("ADMIN")
                         .anyRequest().authenticated())
-                .exceptionHandling(exception -> exception
-                        .authenticationEntryPoint((request, response, authException) -> {
-                            response.sendRedirect("/login");
-                        })
-                )
+//                .exceptionHandling(exception -> exception
+//                        .authenticationEntryPoint((request, response, authException) -> {
+//                            response.sendRedirect("/login");
+//                        })
+//                )
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         return http.build();

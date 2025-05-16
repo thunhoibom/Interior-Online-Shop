@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>Dashboard - NiceAdmin Bootstrap Template</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+
+    <!-- Favicons -->
+    <link th:href="@{/admin-assets/assets/img/favicon.png}" rel="icon">
+    <link th:href="@{/admin-assets/assets/img/apple-touch-icon.png}" rel="apple-touch-icon">
+
+    <!-- Google Fonts -->
+    <link th:href="@{https://fonts.gstatic.com}" rel="preconnect">
+    <link th:href="@{https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i}" rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link th:href="@{/admin-assets/assets/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/admin-assets/assets/vendor/bootstrap-icons/bootstrap-icons.css}" rel="stylesheet">
+    <link th:href="@{/admin-assets/assets/vendor/boxicons/css/boxicons.min.css}" rel="stylesheet">
+    <link th:href="@{/admin-assets/assets/vendor/quill/quill.snow.css}" rel="stylesheet">
+    <link th:href="@{/admin-assets/assets/vendor/quill/quill.bubble.css}" rel="stylesheet">
+    <link th:href="@{/admin-assets/assets/vendor/remixicon/remixicon.css}" rel="stylesheet">
+    <link th:href="@{/admin-assets/assets/vendor/simple-datatables/style.css}" rel="stylesheet">
+
+    <!-- Template Main CSS File -->
+    <link th:href="@{/admin-assets/assets/css/style.css}" rel="stylesheet">
+    <style>
+        .list-group{
+            font-size:14px;
+        }
+    .truncated-text {
+        display: inline-block;
+        max-width: 100%;
+    }
+    .material-container {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+    }
+    </style>
+</head>
+<body>
+
+<!-- ======= Header ======= -->
+<div th:replace="admin/admin-layouts :: header"></div>
+<div th:replace="admin/admin-layouts :: sidebar" ></div>
+<!-- End Sidebar-->
+
+<main id="main" class="main">
+    <section class="section">
+        <main class="col-md-12">
+            <h2>Products</h2>
+            <div class="list-group">
+                <div class="list-group-item border-0 bg-white">
+                    <div class="container-fluid py-2">
+                        <div class="row align-items-center">
+                            <!-- Tabs -->
+                            <div class="col-auto">
+                                <ul class="nav nav-tabs border-0">
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" href="#"><i class="bi bi-check-circle me-1"></i>ALL</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" href="#"><i class="bi bi-lightning me-1"></i>Active</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" href="#"><i class="bi bi-file-earmark me-1"></i>Draft</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" href="#"><i class="bi bi-envelope me-1"></i>Archived</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- Spacer -->
+                            <div class="col"></div>
+                            <!-- Search Bar -->
+                            <div class="col-auto">
+                                <form th:action="@{/admin/san-pham}" class="d-flex flex  align-items-center">
+                                    <input class="input-group-text" type="search" name="searchQuery" id="searchInput" placeholder="Search">
+                                    <i class="bi bi-search fs-5 fw-bold ms-2"></i>
+                                </form>
+                            </div>
+                            <!-- Sort Button -->
+                            <div class="col-auto">
+                                <div class="dropdown">
+                                    <button class="btn dropdown-toggle btn btn-outline-secondary" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Sắp xếp
+                                    </button>
+                                    <form class="dropdown-menu dropdown-menu-dark" th:action="@{/admin/san-pham}">
+                                            <button type="submit" th:name="sortby" value="giaban" class="dropdown-item">Giá bán</button>
+                                            <button type="submit" th:name="sortby" value="hangtrongkho" class="dropdown-item">Hàng trong kho</button>
+                                    </form>
+                                </div>
+                            </div>
+                            <!-- Add Button -->
+                            <div class="col-auto">
+                                <button class="btn btn-outline-secondary"><i class="bi bi-plus-circle"></i> Add</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <table class="table table-hover">
+                    <thead class="thead-dark">
+                    <tr class="text-secondary fw-bold">
+                        <th scope="col">Sản phẩm</th>
+                        <th scope="col">Chất liệu</th>
+                        <th scope="col">Hàng trong kho</th>
+                        <th scope="col">Giá bán</th>
+                        <th scope="col">Giảm giá</th>
+                        <th scope="col">Loại</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="product, productStat: ${products}">
+                        <td>
+                            <img th:src="${product.primary_image}" alt="Product Image" style="width: 65px; height: auto;" th:if="${product.primary_image != null}"/>
+                            <span th:text="${product.name}">Product Name</span>
+                        </td>
+                        <td>
+                            <div th:if="${#strings.length(product.material) > 35}" class="clickable-div"
+                                 th:attr="data-bs-toggle='collapse',data-bs-target='#materialFull' + ${productStat.count}"
+                                 style="cursor:pointer;">
+                                <span th:id="'material' + ${productStat.count}" th:text="${#strings.substring(product.material, 0, 35)}+ '...'">Material</span>
+                                <div class="collapse" th:id="'materialFull' + ${productStat.count}">
+                                    <span th:text="${product.material}">Material</span>
+                                </div>
+                            </div>
+                            <div th:if="${#strings.length(product.material) <= 35}">
+                                <span th:text="${product.material}">Material</span>
+                            </div>
+                        </td>
+                        <td th:text="${product.stock_quantity}">Stock Quantity</td>
+                        <td th:text="${#numbers.formatDecimal(product.price,0, 'COMMA', 0, 'POINT')+'₫'}">Price</td>
+                        <td th:text="${product.discount > 0 ? product.discount + '%' : 'No Discount'}">Discount</td>
+                        <td th:text="${product.category_id}">Category ID</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </section>
+
+</main><!-- End #main -->
+
+<!-- ======= Footer ======= -->
+<footer id="footer" class="footer">
+    <div class="copyright">
+        &copy; Copyright <strong><span>NiceAdmin</span></strong>. All Rights Reserved
+    </div>
+    <div class="credits">
+        <!-- All the links in the footer should remain intact. -->
+        <!-- You can delete the links only if you purchased the pro version. -->
+        <!-- Licensing information: https://bootstrapmade.com/license/ -->
+        <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
+        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+    </div>
+</footer><!-- End Footer -->
+
+<a href="#" class="back-to-top d-flex align-items-start justify-content-start"><i
+        class="bi bi-arrow-up-short"></i></a>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('div[data-bs-toggle="collapse"]').forEach(function (div) {
+            div.addEventListener('click', function () {
+                // Hide the "Xem thêm" link
+                const link = div.querySelector('a.text-primary');
+                if (link) {
+                    link.style.display = 'none';
+                }
+                // Hide the truncated text
+                const truncatedText = div.querySelector('span[id^="material"]');
+                if (truncatedText) {
+                    truncatedText.style.display = 'none';
+                }
+            });
+        });
+    });
+</script>
+</body>
+
+</html>

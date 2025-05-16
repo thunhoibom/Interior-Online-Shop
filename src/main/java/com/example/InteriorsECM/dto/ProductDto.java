@@ -29,4 +29,5 @@ public class ProductDto {
     List<Product_image> product_images;
     @NotEmpty
     int category_id;
+    String primary_image;
 }

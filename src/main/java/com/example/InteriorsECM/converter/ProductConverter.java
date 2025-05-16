@@ -16,6 +16,7 @@ public class ProductConverter {
                 .material(product.getMaterial())
                 .product_images(product.getProduct_images())
                 .discount(product.getDiscount())
+                .primary_image(product.getPrimary_image())
                 .build();
         return productDto;
     }

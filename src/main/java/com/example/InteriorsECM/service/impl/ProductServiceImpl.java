@@ -30,4 +30,20 @@ public class ProductServiceImpl implements ProductService {
         List<Product> products = productRepository.searchProductsByName(name);
         return products.stream().map(product -> ProductConverter.mapToProductDto(product)).collect(Collectors.toList());
     }
+
+    @Override
+    public List<ProductDto> sortByPrice() {
+        List<Product> products = productRepository.sortProductsByPrice();
+        return products.stream()
+                .map(product -> ProductConverter.mapToProductDto(product))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ProductDto> sortByStock() {
+        List<Product> products = productRepository.sortProductsByStock();
+        return products.stream()
+                .map(product -> ProductConverter.mapToProductDto(product))
+                .collect(Collectors.toList());
+    }
 }

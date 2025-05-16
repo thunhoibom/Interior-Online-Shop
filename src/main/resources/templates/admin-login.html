@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title th:fragment="title">Login</title>
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+
+  <!-- Favicons -->
+  <link th:href="@{/assets/img/favicon.png}" rel="icon">
+  <link th:href="@{/assets/img/apple-touch-icon.png}" rel="apple-touch-icon">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Amatic+SC:wght@400;700&display=swap"
+        rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link th:href="@{/assets/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+  <link th:href="@{/assets/vendor/bootstrap-icons/bootstrap-icons.css}" rel="stylesheet">
+  <link th:href="@{/assets/vendor/aos/aos.css}" rel="stylesheet">
+  <link th:href="@{/assets/vendor/glightbox/css/glightbox.min.css}" rel="stylesheet">
+  <link th:href="@{/assets/vendor/swiper/ .min.css}" rel="stylesheet">
+  <link th:href="@{/assets/css/main.css}" rel="stylesheet">
+  <style>
+    .divider:after,
+    .divider:before {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: #eee;
+    }
+    html, body{
+          height: 100%;
+          margin: 0;
+    }
+    .form-outline > label{
+      font-size: 14px !important;
+    }
+    .right-section{
+        padding: 3rem 2rem;
+        font-size: 14px !important;
+    }
+  </style>
+</head>
+
+<body>
+<div class="h-100 fade-in">
+  <div class="w-100 h-100">
+    <div class="row d-flex align-items-center justify-content-center h-100 w-100">
+      <div class="col-md-6 left-section h-100"
+           style="background-image: url('../assets/img/thanos-pal-9OZfTe-y5T4-unsplash.jpg');
+            background-repeat: no-repeat; background-size: cover;">
+      </div>
+      <div class="col-md-6 right-section  ">
+        <h4 >Quản trị viên</h4>
+        <form role="form" th:action="@{/admin/login}" method="post" th:object="${user}">
+          <!-- Email input -->
+          <div data-mdb-input-init class="form-outline mb-4">
+            <label class="form-label" for="form1Example13">Tên tài khoản *</label>
+            <input type="text" id="form1Example13" th:field="*{username}" class="form-control"/>
+          </div>
+
+          <!-- Password input -->
+          <div data-mdb-input-init class="form-outline mb-4">
+            <label class="form-label" for="form1Example23">Mật khẩu *</label>
+            <input type="password" id="form1Example23" th:field="*{password}" class="form-control"/>
+          </div>
+
+          <!--          <div class="d-flex justify-content-around align-items-center mb-4">-->
+          <!--            &lt;!&ndash; Checkbox &ndash;&gt;-->
+          <!--            <div class="form-check">-->
+          <!--              <input class="form-check-input" type="checkbox" value="" id="form1Example3" checked />-->
+          <!--              <label class="form-check-label" for="form1Example3"> Remember me </label>-->
+          <!--            </div>-->
+          <!--            <a href="#!">Forgot password?</a>-->
+          <!--          </div>-->
+
+          <!-- Submit button -->
+          <button type="submit" data-mdb-button-init data-mdb-ripple-init
+                  class="btn btn-dark btn-block w-100">Sign in
+          </button>
+
+          <div class="divider d-flex align-items-center my-4">
+            <p class="text-center fw-bold mx-3 mb-0 text-muted">OR</p>
+          </div>
+
+          <a data-mdb-ripple-init class="btn btn-primary btn-block w-100" style="background-color: #3b5998"
+             href="#!"
+             role="button">
+            <i class="fab fa-facebook-f me-2"></i>Continue with Facebook
+          </a>
+          <a data-mdb-ripple-init class="btn btn-light btn-block w-100 mt-2 border"
+             href="#!"
+             role="button">
+            <i class="fab fa-twitter me-2"></i>Continue with Google</a>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

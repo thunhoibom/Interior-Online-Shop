@@ -1,6 +1,5 @@
 package com.example.InteriorsECM.repository;
 
-import com.example.InteriorsECM.dto.ProductDto;
 import com.example.InteriorsECM.model.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -14,4 +13,12 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
     @Modifying
     @Query("SELECT p FROM Product p WHERE p.name LIKE %?1%")
     List<Product> searchProductsByName(String name);
+
+    @Modifying
+    @Query("SELECT p FROM Product p ORDER BY p.price ASC")
+    List<Product> sortProductsByPrice();
+
+    @Modifying
+    @Query("SELECT p FROM Product p ORDER BY p.stock_quantity ASC")
+    List<Product> sortProductsByStock();
 }

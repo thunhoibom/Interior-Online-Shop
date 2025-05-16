@@ -27,5 +27,6 @@ public class Product {
     float discount;
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     List<Product_image> product_images;
+    String primary_image;
     int category_id;
 }

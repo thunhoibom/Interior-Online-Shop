@@ -40,8 +40,6 @@
     <div class="container position-relative d-flex align-items-center justify-content-between">
 
       <a th:href="@{/menu}" class="logo d-flex align-items-center me-auto me-xl-0">
-        <!-- Uncomment the line below if you also wish to use an image logo -->
-        <!-- <img src="assets/img/logo.png" alt=""> -->
         <h1 class="sitename">House</h1>
         <span>.</span>
       </a>
@@ -58,12 +56,25 @@
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>
 
-      <!-- <a class="btn-getstarted" href="index.html#book-a-table">Book a Table</a> -->
       <nav class="navmenu">
         <ul>
-          <li><a href="#"><i class="bi bi-person fs-4 text-dark"></i></a></li>
           <li><a href="shopping-cart.html"><i class="bi bi-cart3 fs-5 text-dark"></i></a></li>
           <li><a href="#"><i class="bi bi-heart fs-5 text-dark "></i></a></li>
+          <li class="dropdown">
+            <a
+                    class="dropdown-toggle"
+                    id="userDropDown"
+                    type="button"
+                    data-mdb-dropdown-init
+                    data-mdb-ripple-init aria-expanded="false">
+              <i class="bi bi-person fs-4 text-dark"></i>
+            </a>
+            <ul class="dropdown-menu translate-middle-x" aria-labelledby="userDropDown">
+              <li><a th:href="@{/login}" class="dropdown-item" type="button">Login</a></li>
+              <li><a th:href="@{/register}"  class="dropdown-item" type="button">Register</a></li>
+              <li><a th:href="@{/login}"  class="dropdown-item" type="button">Logout</a></li>
+            </ul>
+          </li>
         </ul>
       </nav>
     </div>
@@ -71,7 +82,7 @@
   </header>
   <div th:fragment="navbar" class="container ">
     <ul class="nav">
-      <li class="dropdown" style="" th:onclick="|window.location.href='@{/menu/products}'|">
+      <li class="dropdown" th:onclick="|window.location.href='@{/menu/products}'|">
         <div class="nav-link text-secondary" data-mdb-button-init
            data-mdb-ripple-init data-mdb-dropdown-init
            type="button"
@@ -109,8 +120,43 @@
             </div>
         </div>
       </li>
-      <li class="nav-item">
-        <a class="nav-link text-secondary" href="#">Rooms</a>
+      <li class="dropdown" th:onclick="|window.location.href='@{/menu/products}'|">
+        <div class="nav-link text-secondary" data-mdb-button-init
+             data-mdb-ripple-init data-mdb-dropdown-init
+             type="button"
+             id="dropdownMenuLinkBst"
+             data-mdb-toggle="dropdown"
+             aria-expanded="false" >
+          Bộ sưu tập
+        </div>
+
+        <div class="dropdown-menu custom-dropdown fade-in rounded-0" aria-labelledby="dropdownMenuLinkBst">
+          <div class="row justify-content-start">
+            <div class="col-md-2 col-6">
+              <span><a class="dropdown-item" href="#">Sofa</a></span>
+              <span><a class="dropdown-item" href="#">Sofa góc</a></span>
+              <span><a class="dropdown-item" href="#">Armchair</a></span>
+            </div>
+            <div class="col-md-2 col-6">
+              <span><a class="dropdown-item" href="#">Sofa</a></span>
+              <span><a class="dropdown-item" href="#">Sofa góc</a></span>
+              <span><a class="dropdown-item" href="#">Armchair</a></span>
+            </div>
+            <div class="col-md-2 col-6">
+              <span><a class="dropdown-item" href="#">Sofa</a></span>
+              <span><a class="dropdown-item" href="#">Sofa góc</a></span>
+              <span><a class="dropdown-item" href="#">Armchair</a></span>
+            </div>
+            <div class="col-md-2 col-6">
+              <span><a class="dropdown-item" href="#">Sofa</a></span>
+              <span><a class="dropdown-item" href="#">Sofa góc</a></span>
+              <span><a class="dropdown-item" href="#">Armchair</a></span>
+            </div>
+            <div class="col-sm-3 col-md-4">
+              <img class="w-100" src="https://nhaxinh.com/wp-content/uploads/2024/08/BST-Orientale-600x400.jpg" alt="room"/>
+            </div>
+          </div>
+        </div>
       </li>
       <li class="nav-item">
         <a class="nav-link text-secondary" href="#">Deals</a>

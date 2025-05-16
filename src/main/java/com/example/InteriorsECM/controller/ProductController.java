@@ -28,7 +28,7 @@ public class ProductController {
                                     productService.findAllProducts()
                                     :productService.searchProductsByName(productName);
         model.addAttribute("products", products);
-        return "products";
+        return "products.html";
     }
     @GetMapping("/menu/products/{productId}/product-detail")
     public String productDetail(@PathVariable("productId") int product_id, Model model){

@@ -1,12 +1,7 @@
 package com.example.InteriorsECM.dto;
 
-import com.example.InteriorsECM.model.Customer;
 import com.example.InteriorsECM.model.Role;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -28,6 +23,5 @@ public class UserDto {
     String password;
     @NotEmpty(message = "Không được để trống")
     String email;
-    Customer customer;
     Role role;
 }

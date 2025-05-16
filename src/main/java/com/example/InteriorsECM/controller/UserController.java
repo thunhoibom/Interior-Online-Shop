@@ -40,8 +40,10 @@ public class UserController {
         return "redirect:/menu/products";
     }
 
+
+    //USER LOGIN ENDPOINTS
     @GetMapping("/login")
-    public String loginUser(Model model, HttpServletRequest request,
+    public String userLogin(Model model, HttpServletRequest request,
                             HttpServletResponse response) {
 //----------------
 //Reset cookies
@@ -63,7 +65,7 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public String loginUser(@ModelAttribute("user") UserDto userDto, Model model,
+    public String userLogin(@ModelAttribute("user") UserDto userDto, Model model,
                             HttpServletRequest request,
                             HttpServletResponse response) {
         String token = userService.verify(userDto);
@@ -79,6 +81,44 @@ public class UserController {
             model.addAttribute("user", user);
             return "login-page";
         }
+    }
 
+
+    //ADMIN LOGIN ENDPOINTS
+    @GetMapping("/admin/login")
+    public String adminLogin(Model model, HttpServletRequest request,
+                            HttpServletResponse response) {
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                cookie.setValue(""); // Clear the value
+                cookie.setPath("/"); // Ensure the path matches the original cookie
+                cookie.setMaxAge(0); // Expire the cookie immediately
+                cookie.setHttpOnly(true); // Match original cookie settings
+                cookie.setSecure(true); // Match original cookie settings
+                response.addCookie(cookie); // Add the expired cookie to the response
+            }
+        }
+        UserDto userDto = new UserDto();
+        model.addAttribute("user", userDto);
+        return "/admin/admin-login.html";
+    }
+    @PostMapping("/admin/login")
+    public String adminLogin(@ModelAttribute("user") UserDto userDto, Model model,
+                            HttpServletRequest request,
+                            HttpServletResponse response) {
+        String token = userService.verify(userDto);
+        if (token != null) {
+            Cookie cookie = new Cookie("jwtoken", token);
+            cookie.setHttpOnly(true);
+            cookie.setPath("/"); // Cookie available for entire app
+            cookie.setMaxAge(7 * 24 * 60 * 60);
+            response.addCookie(cookie);
+            return "redirect:/admin/dashboard";
+        } else {
+            UserDto user = new UserDto();
+            model.addAttribute("user", user);
+            return "admin/admin-login";
+        }
     }
 }

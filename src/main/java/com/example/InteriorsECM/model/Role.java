@@ -16,7 +16,5 @@ public class Role {
     @Id
     int id;
     String name;
-    @OneToOne(mappedBy = "role", cascade = CascadeType.ALL)
-    User user;
 }
 

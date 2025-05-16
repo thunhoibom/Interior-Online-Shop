@@ -2,8 +2,8 @@ package com.example.InteriorsECM.service.impl;
 
 import com.example.InteriorsECM.converter.UserConverter;
 import com.example.InteriorsECM.dto.UserDto;
-import com.example.InteriorsECM.model.Role;
 import com.example.InteriorsECM.model.User;
+import com.example.InteriorsECM.model.UserInfo;
 import com.example.InteriorsECM.repository.UserRepository;
 import com.example.InteriorsECM.service.JwtService;
 import com.example.InteriorsECM.service.RoleService;
@@ -31,11 +31,16 @@ public class UserServiceImpl implements UserService {
     public void registerUser(UserDto userDto){
         User user = UserConverter.mapToUser(userDto);
         user.setRole(roleService.findRoleByName("CUSTOMER"));
+        UserInfo userInfo = UserInfo.builder()
+                .phonenumber(null)
+                .name(null)
+                .address(null)
+                .build();
+        user.setUserInfo(userInfo);
         userRepository.save(user);
     }
     public String verify(UserDto userDto){
-        Authentication authentication =
-                authManager.authenticate(new UsernamePasswordAuthenticationToken(userDto.getUsername(), userDto.getPassword()));
+        Authentication authentication = authManager.authenticate(new UsernamePasswordAuthenticationToken(userDto.getUsername(), userDto.getPassword()));
         if(authentication.isAuthenticated()){
             return jwtService.generateToken(userDto.getUsername());
         }

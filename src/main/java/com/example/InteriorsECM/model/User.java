@@ -20,9 +20,11 @@ public class User {
     String username;
     String password_hash;
     String email;
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-    Customer customer;
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name="role_id")
     Role role;
+
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+            @JoinColumn(name = "userInfoId")
+    UserInfo userInfo;
 }
