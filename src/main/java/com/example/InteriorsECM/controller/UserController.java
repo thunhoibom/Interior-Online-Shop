@@ -7,10 +7,14 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class UserController {
@@ -37,7 +41,7 @@ public class UserController {
             return "register-page";
         }
         userService.registerUser(userDto);
-        return "redirect:/menu/products";
+        return "redirect:/login";
     }
 
 
@@ -65,22 +69,44 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public String userLogin(@ModelAttribute("user") UserDto userDto, Model model,
-                            HttpServletRequest request,
-                            HttpServletResponse response) {
-        String token = userService.verify(userDto);
-        if (token != null) {
-            Cookie cookie = new Cookie("jwtoken", token);
-            cookie.setHttpOnly(true);
-            cookie.setPath("/"); // Cookie available for entire app
-            cookie.setMaxAge(7 * 24 * 60 * 60);
-            response.addCookie(cookie);
-            return "redirect:/menu/products";
-        } else {
-            UserDto user = new UserDto();
-            model.addAttribute("user", user);
+    public String userLogin(@Valid @ModelAttribute("user") UserDto userDto,
+                            BindingResult bindingResult,
+                            Model model,
+                            HttpServletResponse response,
+                            RedirectAttributes redirectAttributes) {
+
+        if(bindingResult.hasErrors()){
+            boolean hasUsernameError = bindingResult.hasFieldErrors("username");
+            boolean hasPasswordError = bindingResult.hasFieldErrors("password");
+            if (hasUsernameError || hasPasswordError) {
+                model.addAttribute("user", userDto);
+                return "login-page";
+            }
+        }
+
+        try {
+            String token = userService.verifyCustomer(userDto);
+            if (token != null) {
+                Cookie cookie = new Cookie("jwtoken", token);
+                cookie.setHttpOnly(true);
+                cookie.setPath("/"); // Cookie available for entire app
+                cookie.setMaxAge(7 * 24 * 60 * 60);
+                response.addCookie(cookie);
+                redirectAttributes.addFlashAttribute("loginSuccess", true);
+                return "redirect:/menu/products";
+            }
+        }catch (BadCredentialsException e) {
+            // Invalid credentials
+            redirectAttributes.addFlashAttribute("error", "Invalid username or password");
+            model.addAttribute("user", new UserDto());
+            return "login-page";
+        }catch (AccessDeniedException | java.nio.file.AccessDeniedException e) {
+            // Missing CUSTOMER role
+            redirectAttributes.addFlashAttribute("error", e.getMessage()); // "User does not have the CUSTOMER role"
+            model.addAttribute("user", new UserDto());
             return "login-page";
         }
+        return "login-page";
     }
 
 
@@ -107,7 +133,7 @@ public class UserController {
     public String adminLogin(@ModelAttribute("user") UserDto userDto, Model model,
                             HttpServletRequest request,
                             HttpServletResponse response) {
-        String token = userService.verify(userDto);
+        String token = userService.verifyAdmin(userDto);
         if (token != null) {
             Cookie cookie = new Cookie("jwtoken", token);
             cookie.setHttpOnly(true);

@@ -28,7 +28,46 @@
 
     <!-- Main CSS File -->
     <link th:href="@{/assets/css/main.css}" rel="stylesheet">
-
+    <style>
+        .custom-alert {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1050;
+            min-width: 300px;
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            background: linear-gradient(135deg, #28a745, #34c759); /* Gradient for prettier look */
+            color: white;
+            font-weight: 500;
+            padding: 1rem 1.5rem;
+            animation: slideIn 0.5s ease-in-out;
+        }
+        .custom-alert .btn-close {
+            filter: invert(1); /* White close button */
+        }
+         @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        @keyframes slideOut {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -36,6 +75,10 @@
     </header>
     <div th:replace="index:: navbar"></div>
     <section>
+        <div th:if="${loginSuccess}" class="custom-alert alert alert-success alert-dismissible fade show " role="alert" id="loginAlert">
+            <strong>Success!</strong> Đăng nhập thành công!
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
         <div class=" container slide-top py-2 "  >
             <div class="row ">
                 <div class="col-md-3 col-lg-3 mb-4 mb-lg-0" th:each="product : ${products}">
@@ -68,4 +111,17 @@
             });
         });
     </script>
+    <script th:if="${loginSuccess}">
+        document.addEventListener('DOMContentLoaded', function () {
+            var alertElement = document.getElementById('loginAlert');
+            setTimeout(function () {
+                alertElement.style.animation = 'slideOut 0.5s ease-in-out forwards';
+                setTimeout(function () {
+                    alertElement.remove(); // Remove from DOM after animation
+                }, 500); // Match animation duration
+            }, 3000); // Hide after 3 seconds
+        });
+    </script>
+    <script th:src="@{/assets/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
 </body>
+</html>
