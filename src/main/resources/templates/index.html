@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org" lang="en">
+<html xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      lang="en">
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
@@ -70,9 +72,15 @@
               <i class="bi bi-person fs-4 text-dark"></i>
             </a>
             <ul class="dropdown-menu translate-middle-x" aria-labelledby="userDropDown">
-              <li><a th:href="@{/login}" class="dropdown-item" type="button">Login</a></li>
-              <li><a th:href="@{/register}"  class="dropdown-item" type="button">Register</a></li>
-              <li><a th:href="@{/login}"  class="dropdown-item" type="button">Logout</a></li>
+              <li sec:authorize="!isAuthenticated()">
+                <a th:href="@{/login/user}" class="dropdown-item" type="button">Đăng nhập</a>
+              </li>
+              <li sec:authorize="!isAuthenticated()">
+                <a th:href="@{/register}" class="dropdown-item" type="button">Đăng kí</a>
+              </li>
+              <li sec:authorize="isAuthenticated()">
+                <a th:href="@{/login/user}" class="dropdown-item" type="button">Đăng xuất</a>
+              </li>
             </ul>
           </li>
         </ul>
@@ -80,7 +88,7 @@
     </div>
 
   </header>
-  <div th:fragment="navbar" class="container ">
+  <div th:fragment="navbar" class="container mb-4 mt-2">
     <ul class="nav">
       <li class="dropdown" th:onclick="|window.location.href='@{/menu/products}'|">
         <div class="nav-link text-secondary" data-mdb-button-init
@@ -186,7 +194,7 @@
             </div>
           </div>
           <div class="col-lg-5 order-1 order-lg-2 hero-img" data-aos="zoom-out">
-            <img src="assets/img/hero-img.png" class="img-fluid animated" alt="">
+            <img th:src="@{/assets/img/hero-img.png}" class="img-fluid animated" alt="">
           </div>
         </div>
       </div>

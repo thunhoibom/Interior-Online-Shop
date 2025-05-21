@@ -3,106 +3,171 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
-  <meta charset="utf-8">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title th:fragment="title">Login</title>
-  <meta name="description" content="">
-  <meta name="keywords" content="">
-
-  <!-- Favicons -->
-  <link th:href="@{/assets/img/favicon.png}" rel="icon">
-  <link th:href="@{/assets/img/apple-touch-icon.png}" rel="apple-touch-icon">
-
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com" rel="preconnect">
-  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Amatic+SC:wght@400;700&display=swap"
-        rel="stylesheet">
-
-  <!-- Vendor CSS Files -->
-  <link th:href="@{/assets/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
-  <link th:href="@{/assets/vendor/bootstrap-icons/bootstrap-icons.css}" rel="stylesheet">
-  <link th:href="@{/assets/vendor/aos/aos.css}" rel="stylesheet">
-  <link th:href="@{/assets/vendor/glightbox/css/glightbox.min.css}" rel="stylesheet">
-  <link th:href="@{/assets/vendor/swiper/ .min.css}" rel="stylesheet">
-  <link th:href="@{/assets/css/main.css}" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Page</title>
+  <!-- Bootstrap CSS -->
+  <link th:href="@{https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css}" rel="stylesheet">
+  <!-- MDB CSS -->
+  <link th:href="@{https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.0/mdb.min.css}" rel="stylesheet">
+  <!-- Font Awesome for icons -->
+  <link th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css}" rel="stylesheet">
   <style>
-    .divider:after,
-    .divider:before {
-        content: "";
-        flex: 1;
-        height: 1px;
-        background: #eee;
+    .vh-100 {
+      min-height: 100vh;
     }
-    html, body{
-          height: 100%;
-          margin: 0;
+    .custom-alert {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 1050;
+        min-width: 300px;
+        border: none;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+        font-weight: 500;
+        padding: 1rem 1.5rem;
+        animation: slideIn 0.5s ease-in-out;
     }
-    .form-outline > label{
-      font-size: 14px !important;
+    .custom-alert .btn-close {
+        filter: invert(1); /* White close button */
     }
-    .right-section{
-        padding: 3rem 2rem;
-        font-size: 14px !important;
+     @keyframes slideIn {
+        from {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+    @keyframes slideOut {
+        from {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        to {
+            transform: translateX(100%);
+            opacity: 0;
+        }
     }
   </style>
 </head>
-
 <body>
-<div class="h-100 fade-in">
-  <div class="w-100 h-100">
-    <div class="row d-flex align-items-center justify-content-center h-100 w-100">
-      <div class="col-md-6 left-section h-100"
-           style="background-image: url('../assets/img/thanos-pal-9OZfTe-y5T4-unsplash.jpg');
-            background-repeat: no-repeat; background-size: cover;">
-      </div>
-      <div class="col-md-6 right-section  ">
-        <h4 >Quản trị viên</h4>
-        <form role="form" th:action="@{/admin/login}" method="post" th:object="${user}">
-          <!-- Email input -->
-          <div data-mdb-input-init class="form-outline mb-4">
-            <label class="form-label" for="form1Example13">Tên tài khoản *</label>
-            <input type="text" id="form1Example13" th:field="*{username}" class="form-control"/>
-          </div>
+<section class="vh-100" style="background-color: #1D3417;">
+  <!--    Alerts-->
+  <div th:if="${error}" class="alert alert-danger custom-alert alert-dismissible fade show "
+       id="loginAlert"
+       role="alert">
+    <span th:text="${error}"></span>
+  </div>
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+        <div class="card shadow-2-strong" style="border-radius: 1rem;">
+          <form class="card-body p-5 text-center" role="form" th:action="@{/login/admin}" method="post"
+                th:object="${user}" autocomplete="off">
 
-          <!-- Password input -->
-          <div data-mdb-input-init class="form-outline mb-4">
-            <label class="form-label" for="form1Example23">Mật khẩu *</label>
-            <input type="password" id="form1Example23" th:field="*{password}" class="form-control"/>
-          </div>
+            <h3 class="mb-5">ADMIN ĐĂNG NHẬP</h3>
 
-          <!--          <div class="d-flex justify-content-around align-items-center mb-4">-->
-          <!--            &lt;!&ndash; Checkbox &ndash;&gt;-->
-          <!--            <div class="form-check">-->
-          <!--              <input class="form-check-input" type="checkbox" value="" id="form1Example3" checked />-->
-          <!--              <label class="form-check-label" for="form1Example3"> Remember me </label>-->
-          <!--            </div>-->
-          <!--            <a href="#!">Forgot password?</a>-->
-          <!--          </div>-->
+            <div data-mdb-input-init class="form-outline" th:classappend="${#fields.hasErrors('username')}?'':'mb-4'">
+              <input type="text" id="form1Example13" th:field="*{username}"
+                     class="form-control form-control-lg"
+                     th:classappend="${#fields.hasErrors('username')}?is-invalid"/>
+              <label class="form-label" for="form1Example13">Tên đăng nhập</label>
+            </div>
+            <i class="bi bi-exclamation-triangle text-danger"
+               th:if="${#fields.hasErrors('username')}"></i>
+            <span class="text-danger font-weight-light" th:if="${#fields.hasErrors('username')}"
+                  th:errors="*{username}"></span>
 
-          <!-- Submit button -->
-          <button type="submit" data-mdb-button-init data-mdb-ripple-init
-                  class="btn btn-dark btn-block w-100">Sign in
-          </button>
+            <div data-mdb-input-init class="form-outline" th:classappend="${#fields.hasErrors('password')}?'':'mb-4'">
+              <input type="password" id="form1Example23" th:field="*{password}"
+                     class="form-control form-control-lg"
+                     th:classappend="${#fields.hasErrors('password')}?is-invalid"/>
+              <label class="form-label" for="form1Example23">Mật khẩu *</label>
+            </div>
+            <i class="bi bi-exclamation-triangle text-danger"
+               th:if="${#fields.hasErrors('password')}"></i>
+            <span class="text-danger font-weight-light " th:if="${#fields.hasErrors('password')}"
+                  th:errors="*{password}"></span>
+            <!-- Checkbox -->
+            <div class="d-flex justify-content-between">
+              <div class="form-check d-flex justify-content-start mb-4">
+                <input class="form-check-input" type="checkbox" name="rememberPassword" value="yes" id="form1Example3"/>
+                <label class="form-check-label" for="form1Example3"> Ghi nhớ mật khẩu </label>
+              </div>
+              <div>
+                <a th:href="@{/forgot-password}">Quên mật khẩu ?</a>
+              </div>
+            </div>
 
-          <div class="divider d-flex align-items-center my-4">
-            <p class="text-center fw-bold mx-3 mb-0 text-muted">OR</p>
-          </div>
+            <button data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg btn-block"
+                    type="submit">ĐĂNG NHẬP
+            </button>
 
-          <a data-mdb-ripple-init class="btn btn-primary btn-block w-100" style="background-color: #3b5998"
-             href="#!"
-             role="button">
-            <i class="fab fa-facebook-f me-2"></i>Continue with Facebook
-          </a>
-          <a data-mdb-ripple-init class="btn btn-light btn-block w-100 mt-2 border"
-             href="#!"
-             role="button">
-            <i class="fab fa-twitter me-2"></i>Continue with Google</a>
+            <hr class="my-4">
 
-        </form>
+            <button data-mdb-button-init data-mdb-ripple-init class="btn btn-lg btn-block btn-primary"
+                    style="background-color: #dd4b39;"
+                    type="submit"><i class="fab fa-google me-2"></i> Đăng nhập với Google
+            </button>
+            <button data-mdb-button-init data-mdb-ripple-init class="btn btn-lg btn-block btn-primary mb-2"
+                    style="background-color: #3b5998;"
+                    type="submit"><i class="fab fa-facebook-f me-2"></i> Đăng nhập với Google
+            </button>
+            <div>
+              <a th:href="@{/register}">Chưa có tài khoản ?</a>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   </div>
-</div>
+</section>
+
+<!-- Bootstrap JS -->
+<script th:src="@{https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js}"></script>
+<!-- MDB JS -->
+<script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.0/mdb.min.js}"></script>
+<script>
+  // Basic form submission handling
+  function handleSubmit(event) {
+    event.preventDefault();
+    const email = document.getElementById('typeEmailX-2').value;
+    const password = document.getElementById('typePasswordX-2').value;
+    const remember = document.getElementById('form1Example3').checked;
+    console.log('Login attempted', { email, password, remember });
+    // Add your authentication logic here (e.g., API call)
+    alert('Login submitted! Check console for details.');
+  }
+
+  // Placeholder for Google Sign-In
+  function signInWithGoogle() {
+    console.log('Google Sign-In initiated');
+    // Add Google OAuth logic here
+    alert('Google Sign-In clicked!');
+  }
+
+  // Placeholder for Facebook Sign-In
+  function signInWithFacebook() {
+    console.log('Facebook Sign-In initiated');
+    // Add Facebook OAuth logic here
+    alert('Facebook Sign-In clicked!');
+  }
+</script>
+<script th:if="${error}">
+  document.addEventListener('DOMContentLoaded', function () {
+      var alertElement = document.getElementById('loginAlert');
+      setTimeout(function () {
+          alertElement.style.animation = 'slideOut 0.5s ease-in-out forwards';
+          setTimeout(function () {
+              alertElement.remove();
+          }, 500);
+      }, 3000);
+  });
+</script>
 </body>
 </html>

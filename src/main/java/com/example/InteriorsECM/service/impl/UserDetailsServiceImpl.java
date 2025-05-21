@@ -19,9 +19,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findUserByUsername(username).get();
-
-        //this is my custom UserDetails
-        //getAuthorities() :: return Collections.singleton(new SimpleGrantedAuthority(user.role.name));
         return new UserPrincipal(user);
     }
 }

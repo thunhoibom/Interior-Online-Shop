@@ -15,7 +15,6 @@ public class UserConverter {
                 .username(userDto.getUsername())
                 .password_hash((new BCryptPasswordEncoder(12)).encode(userDto.getPassword()))
                 .email(userDto.getEmail())
-//                .customer(new Customer())
                 .build();
         return user;
     }

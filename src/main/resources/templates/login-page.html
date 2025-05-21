@@ -16,20 +16,63 @@
         .vh-100 {
           min-height: 100vh;
         }
+        .custom-alert {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1050;
+            min-width: 300px;
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    
+            font-weight: 500;
+            padding: 1rem 1.5rem;
+            animation: slideIn 0.5s ease-in-out;
+        }
+        .custom-alert .btn-close {
+            filter: invert(1); /* White close button */
+        }
+         @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        @keyframes slideOut {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
     </style>
 </head>
 <body>
 <section class="vh-100" style="background-color: #508bfc;">
+<!--    Alerts-->
+    <div th:if="${error}" class="alert alert-danger custom-alert alert-dismissible fade show "
+         id="loginAlert"
+         role="alert">
+        <span th:text="${error}"></span>
+    </div>
     <div class="container py-5 h-100">
         <div class="row d-flex justify-content-center align-items-center h-100">
             <div class="col-12 col-md-8 col-lg-6 col-xl-5">
                 <div class="card shadow-2-strong" style="border-radius: 1rem;">
-                    <form class="card-body p-5 text-center" role="form" th:action="@{/login}" method="post"
+                    <form class="card-body p-5 text-center" role="form" th:action="@{/login/user}" method="post"
                           th:object="${user}" autocomplete="off">
 
-                        <h3 class="mb-5">Sign in</h3>
+                        <h3 class="mb-5">Đăng nhập</h3>
 
-                        <div data-mdb-input-init class="form-outline mb-4">
+                        <div data-mdb-input-init class="form-outline" th:classappend="${#fields.hasErrors('username')}?'':'mb-4'">
                             <input type="text" id="form1Example13" th:field="*{username}"
                                    class="form-control form-control-lg"
                                    th:classappend="${#fields.hasErrors('username')}?is-invalid"/>
@@ -37,10 +80,10 @@
                         </div>
                         <i class="bi bi-exclamation-triangle text-danger"
                            th:if="${#fields.hasErrors('username')}"></i>
-                        <span class="text-danger font-weight-light " th:if="${#fields.hasErrors('username')}"
+                        <span class="text-danger font-weight-light" th:if="${#fields.hasErrors('username')}"
                               th:errors="*{username}"></span>
 
-                        <div data-mdb-input-init class="form-outline mb-4">
+                        <div data-mdb-input-init class="form-outline" th:classappend="${#fields.hasErrors('password')}?'':'mb-4'">
                             <input type="password" id="form1Example23" th:field="*{password}"
                                    class="form-control form-control-lg"
                                    th:classappend="${#fields.hasErrors('password')}?is-invalid"/>
@@ -51,26 +94,33 @@
                         <span class="text-danger font-weight-light " th:if="${#fields.hasErrors('password')}"
                               th:errors="*{password}"></span>
                         <!-- Checkbox -->
-                        <div class="form-check d-flex justify-content-start mb-4">
-                            <input class="form-check-input" type="checkbox" value="" id="form1Example3"/>
-                            <label class="form-check-label" for="form1Example3"> Remember password </label>
+                        <div class="d-flex justify-content-between">
+                            <div class="form-check d-flex justify-content-start mb-4">
+                                <input class="form-check-input" type="checkbox" name="rememberPassword" value="yes" id="form1Example3"/>
+                                <label class="form-check-label" for="form1Example3"> Ghi nhớ mật khẩu </label>
+                            </div>
+                            <div>
+                                <a th:href="@{/forgot-password}">Quên mật khẩu ?</a>
+                            </div>
                         </div>
 
                         <button data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg btn-block"
-                                type="submit">Login
+                                type="submit">ĐĂNG NHẬP
                         </button>
 
                         <hr class="my-4">
 
                         <button data-mdb-button-init data-mdb-ripple-init class="btn btn-lg btn-block btn-primary"
                                 style="background-color: #dd4b39;"
-                                type="submit"><i class="fab fa-google me-2"></i> Sign in with google
+                                type="submit"><i class="fab fa-google me-2"></i> Đăng nhập với Google
                         </button>
                         <button data-mdb-button-init data-mdb-ripple-init class="btn btn-lg btn-block btn-primary mb-2"
                                 style="background-color: #3b5998;"
-                                type="submit"><i class="fab fa-facebook-f me-2"></i>Sign in with facebook
+                                type="submit"><i class="fab fa-facebook-f me-2"></i> Đăng nhập với Google
                         </button>
-
+                        <div>
+                            <a th:href="@{/register}">Chưa có tài khoản ?</a>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -107,6 +157,17 @@
       // Add Facebook OAuth logic here
       alert('Facebook Sign-In clicked!');
     }
+</script>
+<script th:if="${error}">
+    document.addEventListener('DOMContentLoaded', function () {
+        var alertElement = document.getElementById('loginAlert');
+        setTimeout(function () {
+            alertElement.style.animation = 'slideOut 0.5s ease-in-out forwards';
+            setTimeout(function () {
+                alertElement.remove();
+            }, 500);
+        }, 3000);
+    });
 </script>
 </body>
 </html>

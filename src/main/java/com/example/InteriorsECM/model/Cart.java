@@ -1,31 +1,28 @@
 package com.example.InteriorsECM.model;
 
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
+@Data
 @Builder
-public class Order {
+@Entity
+public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    String id;
-    private LocalDateTime order_date;
-    Double total_price;
+    int id;
+    int quantity;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "user_id")
     User user;
 
-    @ManyToMany(mappedBy = "orders")
+    @ManyToMany(mappedBy = "carts")
     List<Product> products;
 }

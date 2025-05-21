@@ -29,4 +29,20 @@ public class Product {
     List<Product_image> product_images;
     String primary_image;
     int category_id;
+
+    @ManyToMany
+    @JoinTable(
+            name = "cart_item",
+            joinColumns = @JoinColumn(name =  "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "cart_id")
+    )
+    List<Cart> carts;
+
+    @ManyToMany
+    @JoinTable(
+        name = "order_item",
+        joinColumns = @JoinColumn(name = "product_id"),
+        inverseJoinColumns = @JoinColumn(name = "order_id")
+    )
+    List<Order> orders;
 }

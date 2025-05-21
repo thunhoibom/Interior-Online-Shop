@@ -13,10 +13,12 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.nio.file.AccessDeniedException;
+import java.util.NoSuchElementException;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -38,6 +40,7 @@ public class UserServiceImpl implements UserService {
         this.authManager = authManager;
         this.userDetailsService = userDetailsService;
     }
+    @Override
     public void registerUser(UserDto userDto){
         User user = UserConverter.mapToUser(userDto);
         user.setRole(roleService.findRoleByName("CUSTOMER"));
@@ -49,26 +52,30 @@ public class UserServiceImpl implements UserService {
         user.setUserInfo(userInfo);
         userRepository.save(user);
     }
+    @Override
     public String verifyCustomer(UserDto userDto) throws AccessDeniedException {
-            Authentication authentication = authManager.
-                    authenticate(new UsernamePasswordAuthenticationToken(userDto.getUsername(), userDto.getPassword()));
-            if(authentication.isAuthenticated()){
-                UserDetails userDetails = userDetailsService.loadUserByUsername(userDto.getUsername());
-                boolean hasCustomerRole = userDetails.getAuthorities().stream()
-                        .anyMatch(authority -> authority.getAuthority().equals("CUSTOMER"));
+            try{
+                Authentication authentication = authManager.
+                        authenticate(new UsernamePasswordAuthenticationToken(userDto.getUsername(), userDto.getPassword()));
+                if(authentication.isAuthenticated()){
+                    UserDetails userDetails = userDetailsService.loadUserByUsername(userDto.getUsername());
+                    boolean hasCustomerRole = userDetails.getAuthorities().stream()
+                            .anyMatch(authority -> authority.getAuthority().equals("CUSTOMER"));
 
-                if (hasCustomerRole) {
-                    return jwtService.generateToken(userDetails.getUsername());
-                } else {
-                    throw new AccessDeniedException("User does not have the CUSTOMER role");
+                    if (hasCustomerRole) {
+                        return jwtService.generateToken(userDetails.getUsername());
+                    } else {
+                        throw new AccessDeniedException("User does not have the CUSTOMER role");
+                    }
                 }
-            }else{
+            }catch(AuthenticationException e){
                 throw new BadCredentialsException("Authentication failed");
             }
+            return null;
     }
 
     @Override
-    public String verifyAdmin(UserDto userDto) {
+    public String verifyAdmin(UserDto userDto) throws AccessDeniedException {
         try{
             Authentication authentication = authManager.
                     authenticate(new UsernamePasswordAuthenticationToken(userDto.getUsername(), userDto.getPassword()));
@@ -83,14 +90,25 @@ public class UserServiceImpl implements UserService {
                     throw new AccessDeniedException("User does not have the ADMIN role");
                 }
             }
-        }catch (BadCredentialsException e) {
-            // Handle invalid credentials
-            return null;
-        } catch (AccessDeniedException e) {
-            // Handle missing role
+        }catch(AuthenticationException e){
+            throw new BadCredentialsException("Authentication failed");
+        }
+        return null;
+
+    }
+
+    @Override
+    public User findByEmail(String email) {
+        try{
+            User user = userRepository.findUserByEmail(email).get();
+            return user;
+        }catch(NoSuchElementException e){
             return null;
         }
+    }
 
-        return null;
+    @Override
+    public void applyChanged(User user) {
+        userRepository.save(user);
     }
 }
