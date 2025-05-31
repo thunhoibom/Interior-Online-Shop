@@ -20,9 +20,13 @@ public class Cart {
     int quantity;
 
     @OneToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     User user;
 
     @ManyToMany(mappedBy = "carts")
     List<Product> products;
+
+    public void addProduct(Product product){
+        this.products.add(product);
+    }
 }

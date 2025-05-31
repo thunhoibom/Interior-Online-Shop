@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Integer> {
@@ -21,4 +22,5 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
     @Modifying
     @Query("SELECT p FROM Product p ORDER BY p.stock_quantity ASC")
     List<Product> sortProductsByStock();
+
 }

@@ -45,4 +45,8 @@ public class Product {
         inverseJoinColumns = @JoinColumn(name = "order_id")
     )
     List<Order> orders;
+
+    public void addCart(Cart cart){
+        this.carts.add(cart);
+    }
 }

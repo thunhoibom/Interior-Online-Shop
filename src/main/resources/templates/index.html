@@ -25,15 +25,7 @@
   <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
   <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
 
-  <!-- Main CSS File -->
   <link href="assets/css/main.css" rel="stylesheet">
-  <!-- =======================================================
-  * Template Name: Yummy
-  * Template URL: https://bootstrapmade.com/yummy-bootstrap-restaurant-website-template/
-  * Updated: Aug 07 2024 with Bootstrap v5.3.3
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
 </head>
 
 <body class="index-page">
@@ -60,7 +52,7 @@
 
       <nav class="navmenu">
         <ul>
-          <li><a href="shopping-cart.html"><i class="bi bi-cart3 fs-5 text-dark"></i></a></li>
+          <li><a th:href="@{/menu/gio-hang}"><i class="bi bi-cart3 fs-5 text-dark"></i></a></li>
           <li><a href="#"><i class="bi bi-heart fs-5 text-dark "></i></a></li>
           <li class="dropdown">
             <a
@@ -71,7 +63,7 @@
                     data-mdb-ripple-init aria-expanded="false">
               <i class="bi bi-person fs-4 text-dark"></i>
             </a>
-            <ul class="dropdown-menu translate-middle-x" aria-labelledby="userDropDown">
+            <ul class="dropdown-menu translate-middle-x p-0" aria-labelledby="userDropDown">
               <li sec:authorize="!isAuthenticated()">
                 <a th:href="@{/login/user}" class="dropdown-item" type="button">Đăng nhập</a>
               </li>

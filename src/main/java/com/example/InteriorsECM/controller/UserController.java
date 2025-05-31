@@ -1,6 +1,7 @@
 package com.example.InteriorsECM.controller;
 
 import com.example.InteriorsECM.dto.UserDto;
+import com.example.InteriorsECM.model.UserPrincipal;
 import com.example.InteriorsECM.service.UserService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -9,6 +10,8 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -82,21 +85,34 @@ public class UserController {
                 return "login-page";
             }
         }
-
         try {
             String token = userService.verifyCustomer(userDto);
-
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            if (!(authentication.getPrincipal() instanceof UserPrincipal userPrincipal)) {
+                redirectAttributes.addFlashAttribute("error", "Authentication error");
+                return "redirect:/login/user";
+            }
+            int cartId = userPrincipal.getUser().getCart().getId();
+            Cookie cidc = new Cookie("cart-id", String.valueOf(cartId));
+            cidc.setHttpOnly(true);
+            cidc.setPath("/");
             if (token != null) {
+                //jwt-cokie
                 Cookie cookie = new Cookie("jwtoken", token);
                 cookie.setHttpOnly(true);
                 cookie.setPath("/");
                 if(rememberPassword == "yes"){
                     cookie.setMaxAge(7 * 24 * 60 * 60);
+                    cidc.setMaxAge(7 * 24 * 60 * 60);
                 }else{
                     cookie.setMaxAge(1 * 60 * 60);
+                    cidc.setMaxAge(1 * 60 * 60);
                 }
                 response.addCookie(cookie);
+                response.addCookie(cidc);
                 redirectAttributes.addFlashAttribute("loginSuccess", true);
+
+
                 return "redirect:/menu/products";
             }
         }catch (BadCredentialsException e) {

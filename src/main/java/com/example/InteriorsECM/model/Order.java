@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -15,12 +16,14 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Builder
+@Table(name="orders")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    String id;
+    private int id;
+    @CreationTimestamp
     private LocalDateTime order_date;
-    Double total_price;
+    private float total_price;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

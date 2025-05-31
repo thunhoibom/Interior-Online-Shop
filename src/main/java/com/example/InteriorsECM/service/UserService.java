@@ -14,4 +14,5 @@ public interface UserService {
     User findByEmail(String email);
 
     void applyChanged(User user);
+
 }
