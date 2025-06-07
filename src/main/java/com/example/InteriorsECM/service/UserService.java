@@ -1,7 +1,7 @@
 package com.example.InteriorsECM.service;
 
 import com.example.InteriorsECM.dto.UserDto;
-import com.example.InteriorsECM.model.User;
+import com.example.InteriorsECM.model.mysql.User;
 
 import java.nio.file.AccessDeniedException;
 
@@ -12,7 +12,7 @@ public interface UserService {
     String verifyAdmin(UserDto userDto) throws AccessDeniedException;
 
     User findByEmail(String email);
-
+    User findById(int id);
     void applyChanged(User user);
 
 }

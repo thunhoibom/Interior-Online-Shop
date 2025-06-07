@@ -1,11 +1,10 @@
-package com.example.InteriorsECM.model;
+package com.example.InteriorsECM.model.mysql;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.antlr.v4.runtime.misc.NotNull;
 
 import java.util.List;
 

@@ -1,6 +1,6 @@
 package com.example.InteriorsECM.config;
 
-import com.example.InteriorsECM.model.Role;
+import com.example.InteriorsECM.model.mysql.Role;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

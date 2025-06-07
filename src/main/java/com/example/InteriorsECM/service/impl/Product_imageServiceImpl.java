@@ -1,9 +1,6 @@
 package com.example.InteriorsECM.service.impl;
 
-import com.example.InteriorsECM.converter.Product_imageConverter;
-import com.example.InteriorsECM.dto.Product_imageDto;
-import com.example.InteriorsECM.model.Product_image;
-import com.example.InteriorsECM.repository.Product_imageRepository;
+import com.example.InteriorsECM.repository.mysql.Product_imageRepository;
 import com.example.InteriorsECM.service.Product_imageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

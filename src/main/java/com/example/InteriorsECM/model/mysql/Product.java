@@ -1,4 +1,4 @@
-package com.example.InteriorsECM.model;
+package com.example.InteriorsECM.model.mysql;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -25,28 +25,15 @@ public class Product {
     boolean is_active;
     String material;
     float discount;
+
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     List<Product_image> product_images;
     String primary_image;
     int category_id;
 
-    @ManyToMany
-    @JoinTable(
-            name = "cart_item",
-            joinColumns = @JoinColumn(name =  "product_id"),
-            inverseJoinColumns = @JoinColumn(name = "cart_id")
-    )
-    List<Cart> carts;
+    @OneToMany(mappedBy = "product")
+    List<OrderItem> orderItems;
 
-    @ManyToMany
-    @JoinTable(
-        name = "order_item",
-        joinColumns = @JoinColumn(name = "product_id"),
-        inverseJoinColumns = @JoinColumn(name = "order_id")
-    )
-    List<Order> orders;
-
-    public void addCart(Cart cart){
-        this.carts.add(cart);
-    }
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    private List<CartItem> cartItems;
 }

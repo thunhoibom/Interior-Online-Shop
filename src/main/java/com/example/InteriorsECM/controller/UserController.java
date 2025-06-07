@@ -1,7 +1,7 @@
 package com.example.InteriorsECM.controller;
 
 import com.example.InteriorsECM.dto.UserDto;
-import com.example.InteriorsECM.model.UserPrincipal;
+import com.example.InteriorsECM.model.mysql.UserPrincipal;
 import com.example.InteriorsECM.service.UserService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -70,61 +70,80 @@ public class UserController {
     }
 
     @PostMapping("/login/user")
-    public String userLogin(@Valid @ModelAttribute("user") UserDto userDto,
-                            BindingResult bindingResult,
-                            Model model,
-                            HttpServletResponse response,
-                            RedirectAttributes redirectAttributes,
-                            @RequestParam(value="rememberPassword", required = false) String rememberPassword) {
+    public String userLogin(
+            @Valid @ModelAttribute("user") UserDto userDto,
+            BindingResult bindingResult,
+            Model model,
+            HttpServletResponse response,
+            RedirectAttributes redirectAttributes,
+            @RequestParam(value = "rememberPassword", required = false) String rememberPassword) {
 
-        if(bindingResult.hasErrors()){
-            boolean hasUsernameError = bindingResult.hasFieldErrors("username");
-            boolean hasPasswordError = bindingResult.hasFieldErrors("password");
-            if (hasUsernameError || hasPasswordError) {
+        // Validate form input
+        if (bindingResult.hasErrors()) {
+            if (bindingResult.hasFieldErrors("username") || bindingResult.hasFieldErrors("password")) {
                 model.addAttribute("user", userDto);
                 return "login-page";
             }
         }
+
         try {
+            // Verify user credentials and get JWT token
             String token = userService.verifyCustomer(userDto);
+
+            // Check authentication principal
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             if (!(authentication.getPrincipal() instanceof UserPrincipal userPrincipal)) {
-                redirectAttributes.addFlashAttribute("error", "Authentication error");
+                redirectAttributes.addFlashAttribute("error", "Lỗi xác thực người dùng");
                 return "redirect:/login/user";
             }
+
+            // Extract user and cart IDs
             int cartId = userPrincipal.getUser().getCart().getId();
-            Cookie cidc = new Cookie("cart-id", String.valueOf(cartId));
-            cidc.setHttpOnly(true);
-            cidc.setPath("/");
-            if (token != null) {
-                //jwt-cokie
-                Cookie cookie = new Cookie("jwtoken", token);
-                cookie.setHttpOnly(true);
-                cookie.setPath("/");
-                if(rememberPassword == "yes"){
-                    cookie.setMaxAge(7 * 24 * 60 * 60);
-                    cidc.setMaxAge(7 * 24 * 60 * 60);
-                }else{
-                    cookie.setMaxAge(1 * 60 * 60);
-                    cidc.setMaxAge(1 * 60 * 60);
-                }
-                response.addCookie(cookie);
-                response.addCookie(cidc);
-                redirectAttributes.addFlashAttribute("loginSuccess", true);
+            int userId = userPrincipal.getUser().getUser_id();
 
+            // Create cookies for cart ID and user ID
+            Cookie cartIdCookie = new Cookie("cart-id", String.valueOf(cartId));
+            Cookie userIdCookie = new Cookie("uid", String.valueOf(userId));
 
-                return "redirect:/menu/products";
-            }
-        }catch (BadCredentialsException e) {
+            // Secure cookie settings
+            cartIdCookie.setHttpOnly(true);
+            cartIdCookie.setPath("/");
+            userIdCookie.setHttpOnly(true);
+            userIdCookie.setPath("/");
+
+            // Create JWT cookie
+            Cookie jwtCookie = new Cookie("jwtoken", token);
+            jwtCookie.setHttpOnly(true);
+            jwtCookie.setPath("/");
+
+            // Set cookie expiration based on rememberPassword
+            int cookieMaxAge = "yes".equals(rememberPassword) ? 7 * 24 * 60 * 60 : 1 * 60 * 60; // 7 days or 1 hour
+            jwtCookie.setMaxAge(cookieMaxAge);
+            cartIdCookie.setMaxAge(cookieMaxAge);
+            userIdCookie.setMaxAge(cookieMaxAge);
+
+            // Add cookies to response
+            response.addCookie(jwtCookie);
+            response.addCookie(cartIdCookie);
+            response.addCookie(userIdCookie);
+
+            // Add success message
+            redirectAttributes.addFlashAttribute("loginSuccess", true);
+            return "redirect:/menu/products";
+
+        } catch (BadCredentialsException e) {
             redirectAttributes.addFlashAttribute("error", "Tên đăng nhập hoặc mật khẩu không đúng");
             model.addAttribute("user", new UserDto());
             return "redirect:/login/user";
-        }catch (AccessDeniedException | java.nio.file.AccessDeniedException e) {
+        } catch (AccessDeniedException e) {
             redirectAttributes.addFlashAttribute("error", "Bạn không có quyền truy cập");
             model.addAttribute("user", new UserDto());
             return "redirect:/login/user";
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Đã xảy ra lỗi không mong muốn");
+            model.addAttribute("user", new UserDto());
+            return "redirect:/login/user";
         }
-        return "login-page";
     }
 
 

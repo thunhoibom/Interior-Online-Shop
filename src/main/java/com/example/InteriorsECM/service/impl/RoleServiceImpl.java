@@ -1,7 +1,7 @@
 package com.example.InteriorsECM.service.impl;
 
-import com.example.InteriorsECM.model.Role;
-import com.example.InteriorsECM.repository.RoleRepository;
+import com.example.InteriorsECM.model.mysql.Role;
+import com.example.InteriorsECM.repository.mysql.RoleRepository;
 import com.example.InteriorsECM.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

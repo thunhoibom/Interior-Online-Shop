@@ -1,6 +1,6 @@
 package com.example.InteriorsECM.dto;
 
-import com.example.InteriorsECM.model.Role;
+import com.example.InteriorsECM.model.mysql.Role;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;

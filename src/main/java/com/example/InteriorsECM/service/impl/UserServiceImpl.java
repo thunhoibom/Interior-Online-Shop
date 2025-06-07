@@ -2,10 +2,10 @@ package com.example.InteriorsECM.service.impl;
 
 import com.example.InteriorsECM.converter.UserConverter;
 import com.example.InteriorsECM.dto.UserDto;
-import com.example.InteriorsECM.model.Cart;
-import com.example.InteriorsECM.model.User;
-import com.example.InteriorsECM.model.UserInfo;
-import com.example.InteriorsECM.repository.UserRepository;
+import com.example.InteriorsECM.model.mysql.Cart;
+import com.example.InteriorsECM.model.mysql.User;
+import com.example.InteriorsECM.model.mysql.UserInfo;
+import com.example.InteriorsECM.repository.mysql.UserRepository;
 import com.example.InteriorsECM.service.JwtService;
 import com.example.InteriorsECM.service.RoleService;
 import com.example.InteriorsECM.service.UserService;
@@ -18,7 +18,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -53,7 +52,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void registerUser(UserDto userDto){
         User user = UserConverter.mapToUser(userDto);
-        user.setRole(roleService.findRoleByName("CUSTOMER"));
+        user.setRole(roleService.findRoleByName("ADMIN"));
         Cart cart = new Cart();
         cart.setUser(user);
         user.setCart(cart);
@@ -122,6 +121,11 @@ public class UserServiceImpl implements UserService {
         }catch(NoSuchElementException e){
             return null;
         }
+    }
+
+    @Override
+    public User findById(int id) {
+        return userRepository.findById(id).get();
     }
 
     @Override

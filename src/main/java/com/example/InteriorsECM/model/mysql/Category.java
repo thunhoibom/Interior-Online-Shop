@@ -1,4 +1,4 @@
-package com.example.InteriorsECM.model;
+package com.example.InteriorsECM.model.mysql;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -7,14 +7,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
-@Entity(name="role")
-@Table(name="role")
-public class Role {
+@Entity
+@Table(name = "categories")
+public class Category {
     @Id
-    int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    int category_id;
     String name;
 }
-

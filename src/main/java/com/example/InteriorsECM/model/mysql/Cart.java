@@ -1,4 +1,4 @@
-package com.example.InteriorsECM.model;
+package com.example.InteriorsECM.model.mysql;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -23,10 +23,6 @@ public class Cart {
     @JoinColumn(name = "user_id", nullable = false)
     User user;
 
-    @ManyToMany(mappedBy = "carts")
-    List<Product> products;
-
-    public void addProduct(Product product){
-        this.products.add(product);
-    }
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
+    private List<CartItem> cartItems;
 }

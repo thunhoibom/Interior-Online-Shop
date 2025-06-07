@@ -1,7 +1,7 @@
 package com.example.InteriorsECM.converter;
 
 import com.example.InteriorsECM.dto.UserDto;
-import com.example.InteriorsECM.model.User;
+import com.example.InteriorsECM.model.mysql.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 public class UserConverter {

@@ -1,4 +1,4 @@
-package com.example.InteriorsECM.model;
+package com.example.InteriorsECM.model.mysql;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

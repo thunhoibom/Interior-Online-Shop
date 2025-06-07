@@ -1,7 +1,7 @@
 package com.example.InteriorsECM.converter;
 
 import com.example.InteriorsECM.dto.ProductDto;
-import com.example.InteriorsECM.model.Product;
+import com.example.InteriorsECM.model.mysql.Product;
 
 public class ProductConverter {
     public static ProductDto mapToProductDto(Product product){

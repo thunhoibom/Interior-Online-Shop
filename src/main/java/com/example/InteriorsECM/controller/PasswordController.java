@@ -1,16 +1,14 @@
 package com.example.InteriorsECM.controller;
 
-import com.example.InteriorsECM.repository.UserRepository;
 import com.example.InteriorsECM.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import com.example.InteriorsECM.model.User;
+import com.example.InteriorsECM.model.mysql.User;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;

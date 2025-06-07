@@ -1,4 +1,4 @@
-package com.example.InteriorsECM.model;
+package com.example.InteriorsECM.model.mysql;
 
 
 import jakarta.persistence.*;
@@ -23,12 +23,17 @@ public class Order {
     private int id;
     @CreationTimestamp
     private LocalDateTime order_date;
+    private float shippingCost;
+    private float taxAmount;
     private float total_price;
-
+    private String address;
+    private String notes;
+    private String payment;
+    private String paymentStatus;
     @ManyToOne
     @JoinColumn(name = "user_id")
     User user;
 
-    @ManyToMany(mappedBy = "orders")
-    List<Product> products;
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    List<OrderItem> orderItems;
 }

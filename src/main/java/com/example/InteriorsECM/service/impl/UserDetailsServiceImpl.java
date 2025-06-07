@@ -1,8 +1,8 @@
 package com.example.InteriorsECM.service.impl;
 
-import com.example.InteriorsECM.model.User;
-import com.example.InteriorsECM.model.UserPrincipal;
-import com.example.InteriorsECM.repository.UserRepository;
+import com.example.InteriorsECM.model.mysql.User;
+import com.example.InteriorsECM.model.mysql.UserPrincipal;
+import com.example.InteriorsECM.repository.mysql.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

@@ -1,7 +1,7 @@
 package com.example.InteriorsECM.converter;
 
 import com.example.InteriorsECM.dto.Product_imageDto;
-import com.example.InteriorsECM.model.Product_image;
+import com.example.InteriorsECM.model.mysql.Product_image;
 
 public class Product_imageConverter {
     public static Product_imageDto mapToProduct_imageDto(Product_image product_image){

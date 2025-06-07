@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Checkout - Yummy Bootstrap Template</title>
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Amatic+SC:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link th:href="@{/assets/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/assets/vendor/bootstrap-icons/bootstrap-icons.css}" rel="stylesheet">
+
+    <!-- Main CSS File -->
+    <link th:href="@{/assets/css/main.css}" rel="stylesheet">
+
+    <!-- Inline CSS for better styling -->
+    <style>
+        .section { margin-bottom: 20px; }
+        .error { color: #dc3545; font-size: 0.875em; }
+        .btn-orange { background-color: #f28c38; color: white; }
+        .btn-orange:hover { background-color: #e07b30; }
+        .order-summary { max-height: 80px; object-fit: cover; }
+        .form-group { margin-bottom: 1.5rem; }
+        .text-right { text-align: right; }
+    </style>
+</head>
+<body>
+<header th:replace="~{index :: header}"></header>
+<div th:replace="~{index :: navbar}"></div>
+
+<form class="container mt-5 slide-top "
+     th:object="${checkoutForm}" th:action="@{/menu/checkout}" method="post">
+    <div class="row">
+        <div class="col-md-4 section px-1 border-0">
+            <h3>Thông Tin Khách Hàng</h3>
+            <div >
+                <div class="form-group">
+                    <label for="name">Họ và tên *</label>
+                    <input th:field="*{name}"
+                           type="text" class="form-control" id="name" placeholder="Họ và tên" required>
+                    <small class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Mục này không được để trống.</small>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email *</label>
+                    <input th:field="*{email}"
+                           type="email" class="form-control" id="email" placeholder="Email" required>
+                    <small class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email không hợp lệ.</small>
+                </div>
+                <div class="form-group">
+                    <label for="phonenumber">Số điện thoại *</label>
+                    <input th:field="*{phonenumber}"
+                           type="tel" class="form-control" id="phonenumber" placeholder="Số điện thoại" required>
+                    <small class="error" th:if="${#fields.hasErrors('phonenumber')}" th:errors="*{phonenumber}">Số điện thoại không hợp lệ.</small>
+                </div>
+                <div class="form-group">
+                    <label for="address">Địa chỉ hàng *</label>
+                    <input th:field="*{address}"
+                           type="text" class="form-control" id="address" placeholder="Địa chỉ" required>
+                    <small class="error" th:if="${#fields.hasErrors('address')}" th:errors="*{address}">Địa chỉ không hợp lệ.</small>
+                </div>
+                <div class="form-group">
+                    <label for="notes">Thông Tin Bổ Sung</label>
+                    <textarea th:field="*{notes}"
+                              class="form-control" id="notes" placeholder="Ghi chú (tùy chọn)"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 section border-0">
+            <h3>Hình Thức Thanh Toán </h3>
+            <div class="card border-0">
+                <div class="card-body">
+                    <p><strong>Chú ý:</strong> Sau khi đặt hàng, bạn sẽ nhận được thông tin thanh toán qua email.</p>
+                    <div class="form-check">
+                        <input th:field="*{payment}" type="radio" class="form-check-input" id="cod" name="payment" value="CASH_ON_DELIVERY" checked>
+                        <label class="form-check-label" for="cod">Trả tiền khi nhận hàng (COD)</label>
+                    </div>
+                    <div class="form-check">
+                        <input th:field="*{payment}" type="radio" class="form-check-input" id="creditCard" name="payment" value="CREDIT_CARD">
+                        <label class="form-check-label" for="creditCard">Thẻ tín dụng</label>
+                    </div>
+                    <div class="form-check">
+                        <input th:field="*{payment}" type="radio" class="form-check-input" id="paypal" name="payment" value="PAYPAL">
+                        <label class="form-check-label" for="paypal">PayPal</label>
+                    </div>
+                    <div class="form-check">
+                        <input th:field="*{payment}" type="radio" class="form-check-input" id="bankTransfer" name="payment" value="BANK_TRANSFER">
+                        <label class="form-check-label" for="bankTransfer">Chuyển khoản ngân hàng</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 section border-0">
+            <h3>Đơn Hàng Của Bạn</h3>
+            <div class="card border-0">
+                <div class="card-body">
+                    <div th:each="item : ${cartItems}" class="mb-3">
+                        <div class="row align-items-center">
+                            <div class="col-3">
+                                <img th:src="${item.product != null and item.product.primary_image != null} ? ${item.product.primary_image} : '/images/default.jpg'"
+                                     alt="Product Image" class="img-fluid order-summary">
+                            </div>
+                            <div class="col-6">
+                                <p><strong th:text="${item.product != null} ? ${item.product.name} : 'N/A'"></strong></p>
+                                <p th:text="${#numbers.formatCurrency(item.product != null ? item.product.price : 0)}"></p>
+                            </div>
+                            <div class="col-3 text-right">
+                                <p th:text="${#numbers.formatCurrency((item.product != null ? item.product.price : 0) * item.quantity)}"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <p><strong>Tổng:</strong> <span th:text="${#numbers.formatCurrency(totalPrice != null ? totalPrice : 0)}"></span></p>
+                    <button type="submit"  class="btn btn-orange btn-block mt-3">Đặt Hàng</button>
+                    <a th:href="@{/cart}" class="btn btn-outline-secondary btn-block mt-2">Quay lại giỏ hàng</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+</body>
+</html>

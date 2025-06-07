@@ -1,6 +1,6 @@
-package com.example.InteriorsECM.repository;
+package com.example.InteriorsECM.repository.mysql;
 
-import com.example.InteriorsECM.model.Role;
+import com.example.InteriorsECM.model.mysql.Role;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

@@ -1,16 +1,11 @@
-package com.example.InteriorsECM.model;
+package com.example.InteriorsECM.model.mysql;
 
-import com.example.InteriorsECM.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 
 
 public class UserPrincipal implements UserDetails {

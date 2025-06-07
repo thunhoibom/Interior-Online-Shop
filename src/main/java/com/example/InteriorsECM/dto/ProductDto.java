@@ -1,6 +1,6 @@
 package com.example.InteriorsECM.dto;
 
-import com.example.InteriorsECM.model.Product_image;
+import com.example.InteriorsECM.model.mysql.Product_image;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
