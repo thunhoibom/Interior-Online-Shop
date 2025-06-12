@@ -5,6 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -15,4 +17,6 @@ public interface AccessLogRepository extends JpaRepository<AccessLog, Long> {
             "GROUP BY hour " +
             "ORDER BY hour DESC", nativeQuery = true)
     List<Object[]> findLoginsPerHour();
+    @Query("SELECT a FROM AccessLog a WHERE a.timestamp BETWEEN :startTime AND :endTime")
+    List<AccessLog> findByTimestampBetween(Instant startTime, Instant endTime);
 }

@@ -41,8 +41,6 @@ public class TimescaleDbConfig {
         Map<String, Object> jpaProperties = new HashMap<>();
         jpaProperties.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
         jpaProperties.put("hibernate.hbm2ddl.auto", "update");
-        jpaProperties.put("hibernate.show_sql", "true");
-        jpaProperties.put("hibernate.format_sql", "true");
         em.setJpaPropertyMap(jpaProperties);
 
         return em;

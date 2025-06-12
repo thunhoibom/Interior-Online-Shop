@@ -37,6 +37,66 @@
     * Author: BootstrapMade.com
     * License: https://bootstrapmade.com/license/
     ======================================================== -->
+    <style>
+        .access-log-container {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 15px;
+            background-color: #ffffff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            max-width: 100%;
+            margin: 20px auto;
+            position: relative;
+            min-height: 350px; /* Chiều cao tối thiểu */
+            max-height: 450px; /* Chiều cao tối đa */
+            overflow-y: auto; /* Cho phép cuộn nếu cần */
+        }
+
+        .chart-title {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #333;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .chart-legend {
+            text-align: center;
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 10px;
+        }
+
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.8);
+            z-index: 10;
+            font-size: 1.1em;
+            color: #444;
+        }
+
+        .spinner {
+            margin-left: 10px;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #3498db;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
 </head>
 <body>
 
@@ -455,234 +515,143 @@
                     </div><!-- End Customers Card -->
 
                     <!-- Reports -->
-                    <div class="col-12">
-                        <div class="card">
 
-                            <div class="filter">
-                                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                    <li class="dropdown-header text-start">
-                                        <h6>Filter</h6>
-                                    </li>
-
-                                    <li><a class="dropdown-item" href="#">Hôm nay</a></li>
-                                    <li><a class="dropdown-item" href="#">Tháng</a></li>
-                                    <li><a class="dropdown-item" href="#">Năm</a></li>
-                                </ul>
-                            </div>
-
-                            <div class="card-body">
-                                <h5 class="card-title">Báo cáo <span>/Hôm nay </span></h5>
-
-                                <!-- Line Chart -->
-                                <div id="reportsChart"></div>
-
-                                <script>
-                                    document.addEventListener("DOMContentLoaded", () => {
-                                      new ApexCharts(document.querySelector("#reportsChart"), {
-                                        series: [{
-                                          name: 'Lợi nhuận',
-                                          data: [31, 40, 28, 51, 42, 82, 56],
-                                        }, {
-                                          name: 'Doanh thuu',
-                                          data: [11, 32, 45, 32, 34, 52, 41]
-                                        }, {
-                                          name: 'Khách hàng',
-                                          data: [15, 11, 32, 18, 9, 24, 11]
-                                        }],
-                                        chart: {
-                                          height: 350,
-                                          type: 'area',
-                                          toolbar: {
-                                            show: false
-                                          },
-                                        },
-                                        markers: {
-                                          size: 4
-                                        },
-                                        colors: ['#4154f1', '#2eca6a', '#ff771d'],
-                                        fill: {
-                                          type: "gradient",
-                                          gradient: {
-                                            shadeIntensity: 1,
-                                            opacityFrom: 0.3,
-                                            opacityTo: 0.4,
-                                            stops: [0, 90, 100]
-                                          }
-                                        },
-                                        dataLabels: {
-                                          enabled: false
-                                        },
-                                        stroke: {
-                                          curve: 'smooth',
-                                          width: 2
-                                        },
-                                        xaxis: {
-                                          type: 'datetime',
-                                          categories: ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z", "2018-09-19T06:30:00.000Z"]
-                                        },
-                                        tooltip: {
-                                          x: {
-                                            format: 'dd/MM/yy HH:mm'
-                                          },
-                                        }
-                                      }).render();
-                                    });
-                                </script>
-                                <!-- End Line Chart -->
-
-                            </div>
-
-                        </div>
                     </div><!-- End Reports -->
 
                     <!-- Recent Sales -->
                     <div class="col-12">
-                        <div class="card recent-sales overflow-auto">
-
-                            <div class="filter">
-                                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                    <li class="dropdown-header text-start">
-                                        <h6>Filter</h6>
-                                    </li>
-
-                                    <li><a class="dropdown-item" href="#">Hôm nay</a></li>
-                                    <li><a class="dropdown-item" href="#">Tháng</a></li>
-                                    <li><a class="dropdown-item" href="#">Năm</a></li>
-                                </ul>
-                            </div>
-
-                            <div class="card-body">
-                                <h5 class="card-title">Lịch sử bán hàng <span>| Hôm nay</span></h5>
-
-                                <table class="table table-borderless datatable">
-                                    <thead>
-                                    <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">Khách hàng </th>
-                                        <th scope="col">Sản phẩm</th>
-                                        <th scope="col">Giá</th>
-                                        <th scope="col">Trạng thái</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <th scope="row"><a href="#">#2457</a></th>
-                                        <td>Brandon Jacob</td>
-                                        <td><a href="#" class="text-primary">At praesentium minu</a></td>
-                                        <td>$64</td>
-                                        <td><span class="badge bg-success">Approved</span></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row"><a href="#">#2147</a></th>
-                                        <td>Bridie Kessler</td>
-                                        <td><a href="#" class="text-primary">Blanditiis dolor omnis similique</a></td>
-                                        <td>$47</td>
-                                        <td><span class="badge bg-warning">Pending</span></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row"><a href="#">#2049</a></th>
-                                        <td>Ashleigh Langosh</td>
-                                        <td><a href="#" class="text-primary">At recusandae consectetur</a></td>
-                                        <td>$147</td>
-                                        <td><span class="badge bg-success">Approved</span></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row"><a href="#">#2644</a></th>
-                                        <td>Angus Grady</td>
-                                        <td><a href="#" class="text-primar">Ut voluptatem id earum et</a></td>
-                                        <td>$67</td>
-                                        <td><span class="badge bg-danger">Rejected</span></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row"><a href="#">#2644</a></th>
-                                        <td>Raheem Lehner</td>
-                                        <td><a href="#" class="text-primary">Sunt similique distinctio</a></td>
-                                        <td>$165</td>
-                                        <td><span class="badge bg-success">Approved</span></td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-
-                            </div>
-
+                        <div id="accessLogDiv" class="access-log-container">
+                            <div class="loading" style="display: none;">Loading...<span class="spinner"></span></div>
+                            <h3 class="chart-title">Access Log Statistics</h3>
+                            <canvas id="accessChart" style="min-height: 300px; max-height: 400px; width: 100%;"></canvas>
+                            <div class="chart-legend">Hover over the line for details</div>
                         </div>
+                        <script>
+                            document.addEventListener('DOMContentLoaded', () => {
+                                const accessLogDiv = document.getElementById('accessLogDiv');
+                                const loadingDiv = accessLogDiv.querySelector('.loading');
+                                let chart = null;
+
+                                function getTimeRange(filter) {
+                                    const now = new Date();
+                                    let startTime, endTime;
+
+                                    switch (filter) {
+                                        case 'today':
+                                            startTime = new Date(now.setHours(0, 0, 0, 0)).toISOString();
+                                            endTime = new Date(now.setHours(23, 59, 59, 999)).toISOString();
+                                            break;
+                                        case 'month':
+                                            startTime = new Date(now.getFullYear(), now.getMonth(), 1).toISOString();
+                                            endTime = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59, 999).toISOString();
+                                            break;
+                                        case 'year':
+                                            startTime = new Date(now.getFullYear(), 0, 1).toISOString();
+                                            endTime = new Date(now.getFullYear(), 11, 31, 23, 59, 59, 999).toISOString();
+                                            break;
+                                        default:
+                                            startTime = new Date('2025-06-01T00:00:00Z').toISOString();
+                                            endTime = new Date().toISOString();
+                                    }
+
+                                    return { startTime, endTime };
+                                }
+
+                                async function loadData(filter = null) {
+                                    loadingDiv.style.display = 'block';
+                                    accessLogDiv.classList.add('overflow-auto');
+
+                                    const { startTime, endTime } = getTimeRange(filter);
+                                    try {
+                                        const response = await fetch(`/api/access/logs?start=${startTime}&end=${endTime}`);
+                                        if (!response.ok) throw new Error('Network response was not ok');
+                                        const data = await response.json();
+
+                                        const labels = Object.keys(data);
+                                        const values = Object.values(data);
+
+                                        console.log('Fetched data:', data); // Debug dữ liệu
+                                        if (labels.length === 0 || values.length === 0 || labels.length !== values.length) {
+                                            throw new Error('No data or mismatch between labels and values');
+                                        }
+
+                                        const ctx = document.getElementById('accessChart').getContext('2d');
+                                        if (chart) chart.destroy();
+                                        chart = new Chart(ctx, {
+                                            type: 'line',
+                                            data: {
+                                                labels: labels,
+                                                datasets: [{
+                                                    label: 'Number of Access Events',
+                                                    data: values,
+                                                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                                                    borderColor: 'rgba(75, 192, 192, 1)',
+                                                    borderWidth: 2,
+                                                    tension: 0.4,
+                                                    fill: true,
+                                                    pointRadius: 5,
+                                                    pointHoverRadius: 7,
+                                                    pointBackgroundColor: 'rgba(75, 192, 192, 1)',
+                                                    pointHoverBackgroundColor: 'rgba(54, 162, 235, 1)'
+                                                }]
+                                            },
+                                            options: {
+                                                plugins: {
+                                                    title: {
+                                                        display: true,
+                                                        text: 'Access Events by Date',
+                                                        font: { size: 18 }
+                                                    },
+                                                    legend: {
+                                                        display: true,
+                                                        position: 'top'
+                                                    },
+                                                    tooltip: {
+                                                        mode: 'index',
+                                                        intersect: false
+                                                    }
+                                                },
+                                                scales: {
+                                                    y: {
+                                                        beginAtZero: true,
+                                                        title: { display: true, text: 'Number of Accesses' },
+                                                        ticks: { font: { size: 12 } }
+                                                    },
+                                                    x: {
+                                                        title: { display: true, text: 'Date' },
+                                                        ticks: { font: { size: 12 } }
+                                                    }
+                                                },
+                                                responsive: true,
+                                                maintainAspectRatio: false,
+                                                aspectRatio: 2,
+                                                hover: {
+                                                    mode: 'nearest',
+                                                    intersect: true
+                                                }
+                                            }
+                                        });
+                                    } catch (error) {
+                                        accessLogDiv.innerHTML = `<p style="color: red;">Error loading data: ${error.message}</p>`;
+                                    } finally {
+                                        loadingDiv.style.display = 'none';
+                                    }
+                                }
+
+                                document.querySelectorAll('.dropdown-item').forEach(item => {
+                                    item.addEventListener('click', (e) => {
+                                        e.preventDefault();
+                                        const filter = item.getAttribute('data-filter');
+                                        loadData(filter);
+                                    });
+                                });
+
+                                loadData();
+                            });
+                        </script>
                     </div><!-- End Recent Sales -->
 
                     <!-- Top Selling -->
-                    <div class="col-12">
-                        <div class="card top-selling overflow-auto">
-
-                            <div class="filter">
-                                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                    <li class="dropdown-header text-start">
-                                        <h6>Filter</h6>
-                                    </li>
-
-                                    <li><a class="dropdown-item" href="#">Hôm nay</a></li>
-                                    <li><a class="dropdown-item" href="#">Tháng</a></li>
-                                    <li><a class="dropdown-item" href="#">Năm</a></li>
-                                </ul>
-                            </div>
-
-                            <div class="card-body pb-0">
-                                <h5 class="card-title">Bán chạy nhất <span>| Hôm nay</span></h5>
-
-                                <table class="table table-borderless">
-                                    <thead>
-                                    <tr>
-                                        <th scope="col">Ảnh</th>
-                                        <th scope="col">Sản phẩm</th>
-                                        <th scope="col">Giá</th>
-                                        <th scope="col">bán</th>
-                                        <th scope="col">Doanh thu</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <th scope="row"><a href="#"><img src="assets/img/product-1.jpg" alt=""></a></th>
-                                        <td><a href="#" class="text-primary fw-bold">Ut inventore ipsa voluptas nulla</a></td>
-                                        <td>$64</td>
-                                        <td class="fw-bold">124</td>
-                                        <td>$5,828</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row"><a href="#"><img src="assets/img/product-2.jpg" alt=""></a></th>
-                                        <td><a href="#" class="text-primary fw-bold">Exercitationem similique doloremque</a></td>
-                                        <td>$46</td>
-                                        <td class="fw-bold">98</td>
-                                        <td>$4,508</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row"><a href="#"><img src="assets/img/product-3.jpg" alt=""></a></th>
-                                        <td><a href="#" class="text-primary fw-bold">Doloribus nisi exercitationem</a></td>
-                                        <td>$59</td>
-                                        <td class="fw-bold">74</td>
-                                        <td>$4,366</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row"><a href="#"><img src="assets/img/product-4.jpg" alt=""></a></th>
-                                        <td><a href="#" class="text-primary fw-bold">Officiis quaerat sint rerum error</a></td>
-                                        <td>$32</td>
-                                        <td class="fw-bold">63</td>
-                                        <td>$2,016</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row"><a href="#"><img src="assets/img/product-5.jpg" alt=""></a></th>
-                                        <td><a href="#" class="text-primary fw-bold">Sit unde debitis delectus repellendus</a></td>
-                                        <td>$79</td>
-                                        <td class="fw-bold">41</td>
-                                        <td>$3,239</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-
-                            </div>
-
-                        </div>
-                    </div><!-- End Top Selling -->
 
                 </div>
             </div><!-- End Left side columns -->
@@ -838,82 +807,6 @@
                 </div><!-- End Budget Report -->
 
                 <!-- Website Traffic -->
-                <div class="card">
-                    <div class="filter">
-                        <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                            <li class="dropdown-header text-start">
-                                <h6>Filter</h6>
-                            </li>
-
-                            <li><a class="dropdown-item" href="#">Hôm nay</a></li>
-                            <li><a class="dropdown-item" href="#">Tháng</a></li>
-                            <li><a class="dropdown-item" href="#">Năm</a></li>
-                        </ul>
-                    </div>
-
-                    <div class="card-body pb-0">
-                        <h5 class="card-title">Lượng truy cập <span>| hôm nay</span></h5>
-
-                        <div id="trafficChart" style="min-height: 400px;" class="echart"></div>
-
-                        <script>
-                            document.addEventListener("DOMContentLoaded", () => {
-                              echarts.init(document.querySelector("#trafficChart")).setOption({
-                                tooltip: {
-                                  trigger: 'item'
-                                },
-                                legend: {
-                                  top: '5%',
-                                  left: 'center'
-                                },
-                                series: [{
-                                  name: 'Access From',
-                                  type: 'pie',
-                                  radius: ['40%', '70%'],
-                                  avoidLabelOverlap: false,
-                                  label: {
-                                    show: false,
-                                    position: 'center'
-                                  },
-                                  emphasis: {
-                                    label: {
-                                      show: true,
-                                      fontSize: '18',
-                                      fontWeight: 'bold'
-                                    }
-                                  },
-                                  labelLine: {
-                                    show: false
-                                  },
-                                  data: [{
-                                      value: 1048,
-                                      name: 'Search Engine'
-                                    },
-                                    {
-                                      value: 735,
-                                      name: 'Direct'
-                                    },
-                                    {
-                                      value: 580,
-                                      name: 'Email'
-                                    },
-                                    {
-                                      value: 484,
-                                      name: 'Union Ads'
-                                    },
-                                    {
-                                      value: 300,
-                                      name: 'Video Ads'
-                                    }
-                                  ]
-                                }]
-                              });
-                            });
-                        </script>
-
-                    </div>
-                </div><!-- End Website Traffic -->
 
                 <!-- News & Updates Traffic -->
 
@@ -953,7 +846,7 @@
 
 <!-- Template Main JS File -->
 <script src="assets/js/main.js"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </body>
 
 </html>

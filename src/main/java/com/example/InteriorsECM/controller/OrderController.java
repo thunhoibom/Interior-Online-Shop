@@ -121,7 +121,6 @@ public class OrderController {
                 .total_price(20000f + (float)(totalPrice*2/100) + (float)totalPrice)
                 .build();
 
-        System.out.println(order.getShippingCost());
         List<OrderItem> orderItems = cartItems.stream().map(
                 item -> {
                     OrderItem orderItem = OrderItem.builder()

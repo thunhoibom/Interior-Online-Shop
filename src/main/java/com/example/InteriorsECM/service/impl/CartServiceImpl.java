@@ -56,6 +56,14 @@ public class CartServiceImpl implements CartService {
         }
         return cart;
     }
-
+    @Override
+    @Transactional("mySqlTransactionManager")
+    public void clearCart(int userId) {
+        Cart cart = cartRepository.findByUserId(userId)
+                .orElseThrow(() -> new RuntimeException("Cart not found for user ID: " + userId));
+        cart.getCartItems().clear();
+        cart.setQuantity(0);
+        cartRepository.save(cart);
+    }
 
 }

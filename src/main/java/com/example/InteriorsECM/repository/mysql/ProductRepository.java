@@ -21,5 +21,4 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
     @Modifying
     @Query("SELECT p FROM Product p ORDER BY p.stock_quantity ASC")
     List<Product> sortProductsByStock();
-
 }

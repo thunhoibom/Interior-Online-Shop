@@ -1,23 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-
-    <title>Dashboard - NiceAdmin Bootstrap Template</title>
-    <meta content="" name="description">
-    <meta content="" name="keywords">
-
-    <!-- Favicons -->
+    <title>Admin - Product Management</title>
     <link th:href="@{/admin-assets/assets/img/favicon.png}" rel="icon">
     <link th:href="@{/admin-assets/assets/img/apple-touch-icon.png}" rel="apple-touch-icon">
-
-    <!-- Google Fonts -->
     <link th:href="@{https://fonts.gstatic.com}" rel="preconnect">
     <link th:href="@{https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i}" rel="stylesheet">
-
-    <!-- Vendor CSS Files -->
     <link th:href="@{/admin-assets/assets/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
     <link th:href="@{/admin-assets/assets/vendor/bootstrap-icons/bootstrap-icons.css}" rel="stylesheet">
     <link th:href="@{/admin-assets/assets/vendor/boxicons/css/boxicons.min.css}" rel="stylesheet">
@@ -25,30 +15,214 @@
     <link th:href="@{/admin-assets/assets/vendor/quill/quill.bubble.css}" rel="stylesheet">
     <link th:href="@{/admin-assets/assets/vendor/remixicon/remixicon.css}" rel="stylesheet">
     <link th:href="@{/admin-assets/assets/vendor/simple-datatables/style.css}" rel="stylesheet">
-
-    <!-- Template Main CSS File -->
     <link th:href="@{/admin-assets/assets/css/style.css}" rel="stylesheet">
     <style>
-        .list-group{
-            font-size:14px;
+        /* General Styling */
+        body {
+            background-color: #f5f7fa;
+            font-family: 'Nunito', sans-serif;
         }
-    .truncated-text {
-        display: inline-block;
-        max-width: 100%;
-    }
-    .material-container {
-        display: inline-flex;
-        align-items: center;
-        gap: 5px;
-    }
+        .main {
+            padding: 20px;
+        }
+        h2 {
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Navigation Tabs */
+        .nav-tabs .nav-link {
+            border-radius: 8px;
+            padding: 8px 16px;
+            font-weight: 500;
+            color: #34495e;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .nav-tabs .nav-link:hover,
+        .nav-tabs .nav-link.active {
+            background-color: #3498db;
+            color: #fff;
+        }
+
+        /* Table Styling */
+        .table {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        .table thead {
+            background-color: #34495e;
+            color: #fff;
+        }
+        .table th, .table td {
+            padding: 12px;
+            vertical-align: middle;
+            font-size: 0.9rem;
+        }
+        .table tr {
+            transition: background-color 0.2s;
+        }
+        .table tr:hover {
+            background-color: #f8f9fa;
+        }
+        .table img {
+            border-radius: 4px;
+            object-fit: cover;
+        }
+
+        /* Form and Search Input */
+        .input-group-text {
+            border-radius: 8px 0 0 8px;
+            border: 1px solid #ced4da;
+            padding: 8px 12px;
+            font-size: 0.9rem;
+        }
+        .bi-search {
+            cursor: pointer;
+            color: #3498db;
+        }
+        .form-control {
+            border-radius: 8px;
+            font-size: 0.9rem;
+            transition: border-color 0.3s;
+        }
+        .form-control:focus {
+            border-color: #3498db;
+            box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+        }
+
+        /* Buttons */
+        .btn-primary {
+            background-color: #3498db;
+            border-color: #3498db;
+            border-radius: 8px;
+            padding: 8px 16px;
+            font-weight: 500;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        .btn-primary:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+        .btn-outline-secondary {
+            border-radius: 8px;
+            font-weight: 500;
+            transition: border-color 0.3s, color 0.3s;
+        }
+        .btn-outline-secondary:hover {
+            border-color: #3498db;
+            color: #3498db;
+        }
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 0.85rem;
+        }
+
+        /* Dropdown Menu */
+        .action-dropdown .dropdown-menu {
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            min-width: 140px;
+        }
+        .action-dropdown .dropdown-item {
+            padding: 10px 15px;
+            font-size: 0.9rem;
+            transition: background-color 0.2s;
+        }
+        .action-dropdown .dropdown-item:hover {
+            background-color: #e9ecef;
+        }
+
+        /* Modal Styling */
+        .modal-content {
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+        .modal-header {
+            background-color: #3498db;
+            color: #fff;
+            border-radius: 12px 12px 0 0;
+        }
+        .modal-body {
+            padding: 20px;
+        }
+        .modal-body .form-label {
+            font-weight: 500;
+            color: #2c3e50;
+        }
+        .modal-body .form-control {
+            border-radius: 8px;
+            padding: 10px;
+        }
+        .modal-body .text-danger {
+            background-color: #f8d7da;
+            padding: 6px 10px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+        }
+        .dropdown-toggle::after {
+            display: none !important;
+        }
+        /* Image Group and Preview */
+        .image-group {
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 10px;
+            background-color: #f8f9fa;
+            margin-bottom: 10px;
+        }
+        .image-preview {
+            max-width: 150px;
+            height: auto;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-top: 10px;
+            display: none;
+        }
+
+        /* Material Collapse */
+        .clickable-div {
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        .clickable-div:hover {
+            color: #3498db;
+        }
+        .collapse.show {
+            animation: fadeIn 0.3s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+            .nav-tabs .nav-link {
+                font-size: 0.85rem;
+                padding: 6px 12px;
+            }
+            .modal-dialog {
+                margin: 10px;
+            }
+            .btn-sm {
+                font-size: 0.8rem;
+                padding: 5px 10px;
+            }
+        }
     </style>
 </head>
 <body>
-
-<!-- ======= Header ======= -->
 <div th:replace="admin/admin-layouts :: header"></div>
-<div th:replace="admin/admin-layouts :: sidebar" ></div>
-<!-- End Sidebar-->
+<div th:replace="admin/admin-layouts :: sidebar"></div>
 
 <main id="main" class="main">
     <section class="section">
@@ -58,11 +232,10 @@
                 <div class="list-group-item border-0 bg-white">
                     <div class="container-fluid py-2">
                         <div class="row align-items-center">
-                            <!-- Tabs -->
                             <div class="col-auto">
                                 <ul class="nav nav-tabs border-0">
                                     <li class="nav-item">
-                                        <a class="nav-link text-dark" href="#"><i class="bi bi-check-circle me-1"></i>ALL</a>
+                                        <a class="nav-link text-dark" th:href="@{/admin/san-pham}"><i class="bi bi-check-circle me-1"></i>ALL</a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link text-dark" href="#"><i class="bi bi-lightning me-1"></i>Active</a>
@@ -75,115 +248,513 @@
                                     </li>
                                 </ul>
                             </div>
-                            <!-- Spacer -->
                             <div class="col"></div>
-                            <!-- Search Bar -->
                             <div class="col-auto">
-                                <form th:action="@{/admin/san-pham}" class="d-flex flex  align-items-center">
-                                    <input class="input-group-text" type="search" name="searchQuery" id="searchInput" placeholder="Search">
+                                <form th:action="@{/admin/san-pham}" class="d-flex align-items-center">
+                                    <input class="input-group-text" type="search" name="searchQuery" id="searchInput" th:value="${searchQuery}" placeholder="Search products...">
                                     <i class="bi bi-search fs-5 fw-bold ms-2"></i>
                                 </form>
                             </div>
-                            <!-- Sort Button -->
                             <div class="col-auto">
                                 <div class="dropdown">
-                                    <button class="btn dropdown-toggle btn btn-outline-secondary" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Sắp xếp
+                                    <button class="btn btn-outline-secondary" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="bi bi-sort-alpha-down me-1"></i> Sắp xếp
                                     </button>
-                                    <form class="dropdown-menu dropdown-menu-dark" th:action="@{/admin/san-pham}">
-                                            <button type="submit" th:name="sortby" value="giaban" class="dropdown-item">Giá bán</button>
-                                            <button type="submit" th:name="sortby" value="hangtrongkho" class="dropdown-item">Hàng trong kho</button>
+                                    <form class="dropdown-menu" th:action="@{/admin/san-pham}">
+                                        <button type="submit" name="sortby" value="giaban" class="dropdown-item">Giá bán</button>
+                                        <button type="submit" name="sortby" value="hangtrongkho" class="dropdown-item">Hàng trong kho</button>
                                     </form>
                                 </div>
                             </div>
-                            <!-- Add Button -->
                             <div class="col-auto">
-                                <button class="btn btn-outline-secondary"><i class="bi bi-plus-circle"></i> Add</button>
+                                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createProductModal"><i class="bi bi-plus-circle me-1"></i> Add Product</button>
                             </div>
                         </div>
                     </div>
                 </div>
-                <table class="table table-hover">
-                    <thead class="thead-dark">
-                    <tr class="text-secondary fw-bold">
-                        <th scope="col">Sản phẩm</th>
-                        <th scope="col">Chất liệu</th>
-                        <th scope="col">Hàng trong kho</th>
-                        <th scope="col">Giá bán</th>
-                        <th scope="col">Giảm giá</th>
-                        <th scope="col">Loại</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="product, productStat: ${products}">
-                        <td>
-                            <img th:src="${product.primary_image}" alt="Product Image" style="width: 65px; height: auto;" th:if="${product.primary_image != null}"/>
-                            <span th:text="${product.name}">Product Name</span>
-                        </td>
-                        <td>
-                            <div th:if="${#strings.length(product.material) > 35}" class="clickable-div"
-                                 th:attr="data-bs-toggle='collapse',data-bs-target='#materialFull' + ${productStat.count}"
-                                 style="cursor:pointer;">
-                                <span th:id="'material' + ${productStat.count}" th:text="${#strings.substring(product.material, 0, 35)}+ '...'">Material</span>
-                                <div class="collapse" th:id="'materialFull' + ${productStat.count}">
+                <form th:action="@{/admin/san-pham/bulk-action}" method="post">
+                    <div class="mb-3">
+                        <button type="submit" name="action" value="delete" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete selected products?')"><i class="bi bi-trash me-1"></i> Delete Selected</button>
+                        <button type="submit" name="action" value="activate" class="btn btn-success btn-sm"><i class="bi bi-check-circle me-1"></i> Activate Selected</button>
+                        <button type="submit" name="action" value="deactivate" class="btn btn-warning btn-sm"><i class="bi bi-pause-circle me-1"></i> Deactivate Selected</button>
+                    </div>
+                    <table class="table table-hover">
+                        <thead class="thead-dark">
+                        <tr class="text-secondary fw-bold">
+                            <th scope="col" class="checkbox-column">
+                                <input type="checkbox" id="selectAll" onclick="toggleCheckboxes(this)">
+                            </th>
+                            <th scope="col">Sản phẩm</th>
+                            <th scope="col">Chất liệu</th>
+                            <th scope="col">Hàng trong kho</th>
+                            <th scope="col">Giá bán</th>
+                            <th scope="col">Giảm giá</th>
+                            <th scope="col">Loại</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:if="${products == null or #lists.isEmpty(products)}">
+                            <td colspan="8" class="text-center">No products found.</td>
+                        </tr>
+                        <tr th:each="product, productStat: ${products}">
+                            <td class="checkbox-column">
+                                <input type="checkbox" th:name="selectedProducts" th:value="${product.product_id}" class="product-checkbox">
+                            </td>
+                            <td>
+                                <img th:src="@{${product.primary_image}}" alt="Product Image" style="width: 65px; height: auto;" th:if="${product.primary_image != null}"/>
+                                <span th:text="${product.name}">Product Name</span>
+                            </td>
+                            <td>
+                                <div th:if="${#strings.length(product.material) > 35}" class="clickable-div"
+                                     th:attr="data-bs-toggle='collapse',data-bs-target='#materialFull' + ${productStat.count}">
+                                    <span th:id="'material' + ${productStat.count}" th:text="${#strings.substring(product.material, 0, 35) + '...'}">Material</span>
+                                    <div class="collapse" th:id="'materialFull' + ${productStat.count}">
+                                        <span th:text="${product.material}">Material</span>
+                                    </div>
+                                </div>
+                                <div th:if="${#strings.length(product.material) <= 35}">
                                     <span th:text="${product.material}">Material</span>
                                 </div>
-                            </div>
-                            <div th:if="${#strings.length(product.material) <= 35}">
-                                <span th:text="${product.material}">Material</span>
-                            </div>
-                        </td>
-                        <td th:text="${product.stock_quantity}">Stock Quantity</td>
-                        <td th:text="${#numbers.formatDecimal(product.price,0, 'COMMA', 0, 'POINT')+'₫'}">Price</td>
-                        <td th:text="${product.discount > 0 ? product.discount + '%' : 'No Discount'}">Discount</td>
-                        <td th:text="${product.category_id}">Category ID</td>
-                    </tr>
-                    </tbody>
-                </table>
+                            </td>
+                            <td th:text="${product.stock_quantity}">Stock Quantity</td>
+                            <td th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT') + '₫'}">Price</td>
+                            <td th:text="${product.discount < 0 ? product.discount : 'No Discount'}">Discount</td>
+                            <td th:text="${product.category_id}">Category ID</td>
+                            <td>
+                                <div class="action-dropdown">
+                                    <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="bi bi-three-dots"></i>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a th:href="@{/admin/san-pham(editId=${product.product_id})}" class="dropdown-item"  data-bs-target="#productModal" th:attr="data-product-id=${product.product_id}">
+                                                <i class="bi bi-pencil me-2"></i> Edit
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a th:href="@{/admin/san-pham/{id}/delete(id=${product.product_id})}" class="dropdown-item text-danger" onclick="return confirm('Are you sure?')">
+                                                <i class="bi bi-trash me-2"></i> Delete
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </form>
             </div>
         </main>
+
+        <!-- Create Product Modal -->
+        <div class="modal fade" id="createProductModal" tabindex="-1" aria-labelledby="createProductModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="createProductModalLabel">New Product</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div th:if="${createError}" class="alert alert-danger" role="alert">
+                            <span th:text="${createError}"></span>
+                        </div>
+                        <form th:action="@{/admin/san-pham/create}" th:object="${createProductDTO}" method="post" enctype="multipart/form-data">
+                            <div class="mb-3">
+                                <label for="createName" class="form-label">Tên sản phẩm</label>
+                                <input type="text" class="form-control" id="createName" th:field="*{name}" required />
+                                <div class="text-danger" th:errors="*{name}"></div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="createPrice" class="form-label">Giá sản phẩm</label>
+                                <input type="number" class="form-control" id="createPrice" th:field="*{price}" step="0.01" required />
+                                <div class="text-danger" th:errors="*{price}"></div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="createSize" class="form-label">Kích thước</label>
+                                <input type="text" class="form-control" id="createSize" th:field="*{size}" />
+                                <div class="text-danger" th:errors="*{size}"></div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="createStockQuantity" class="form-label">Hàng trong kho</label>
+                                <input type="number" class="form-control" id="createStockQuantity" th:field="*{stock_quantity}" required />
+                                <div class="text-danger" th:errors="*{stock_quantity}"></div>
+                            </div>
+                            <div class="mb-3 form-check">
+                                <input type="checkbox" class="form-check-input" id="createIsActive" th:field="*{is_active}" checked />
+                                <label class="form-check-label" for="createIsActive">Đang bán</label>
+                            </div>
+                            <div class="mb-3">
+                                <label for="createMaterial" class="form-label">Chất liệu</label>
+                                <input type="text" class="form-control" id="createMaterial" th:field="*{material}" />
+                                <div class="text-danger" th:errors="*{material}"></div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="createDiscount" class="form-label">Giảm giá (%)</label>
+                                <input type="number" class="form-control" id="createDiscount" th:field="*{discount}" step="0.01" />
+                                <div class="text-danger" th:errors="*{discount}"></div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="createPrimaryImageFile" class="form-label">Primary Image Upload</label>
+                                <input type="file" class="form-control" id="createPrimaryImageFile" name="primaryImageFile" accept="image/*" />
+                                <input type="text" class="form-control mt-2" th:field="*{primary_image}" placeholder="Or enter image URL" />
+                                <img th:src="@{${createProductDTO.primary_image}}" class="image-preview" id="createPrimaryImagePreview" th:if="${createProductDTO.primary_image != null}" alt="Primary Image Preview" style="max-width: 150px; margin-top: 10px;" />
+                                <div class="text-danger" th:errors="*{primary_image}"></div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="createCategoryId" class="form-label">Category ID</label>
+                                <input type="number" class="form-control" id="createCategoryId" th:field="*{category_id}" required />
+                                <div class="text-danger" th:errors="*{category_id}"></div>
+                            </div>
+                            <div class="mb-3">
+                                <h5>Ảnh</h5>
+                                <div id="createImages">
+                                    <div th:if="${#lists.isEmpty(createProductDTO.product_images)}">
+                                        <p>No images available. Add new images below.</p>
+                                    </div>
+                                    <div th:each="image, iterStat : ${createProductDTO.product_images}" class="image-group mb-2" th:id="'createImageGroup' + ${iterStat.index}">
+                                        <input type="hidden" th:field="*{product_images[__${iterStat.index}__].image_id}" />
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" th:field="*{product_images[__${iterStat.index}__].image_url}" placeholder="Image URL" />
+                                            <select class="form-select" th:field="*{product_images[__${iterStat.index}__].is_primary}">
+                                                <option value="true">Primary</option>
+                                                <option value="false">Not Primary</option>
+                                            </select>
+                                            <button type="button" class="btn btn-outline-danger btn-sm ms-2" th:onclick="'removeCreateImageField(' + ${iterStat.index} + ')'"><i class="bi bi-trash"></i></button>
+                                        </div>
+                                        <input type="file" class="form-control mt-2" name="productImageFiles" accept="image/*" />
+                                        <img th:src="@{${image.image_url}}" class="image-preview" th:id="'createImagePreview' + ${iterStat.index}" th:if="${image.image_url != null}" alt="Image Preview" style="max-width: 150px; margin-top: 10px;" />
+                                        <div class="text-danger" th:errors="*{product_images[__${iterStat.index}__].image_url}"></div>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn btn-outline-secondary btn-sm mt-2" onclick="addCreateImageField()">Add Image</button>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Create</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Edit Product Modal -->
+        <div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="productModalLabel">Edit Product</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div th:if="${editError}" class="alert alert-danger" role="alert">
+                            <span th:text="${editError}"></span>
+                        </div>
+                        <form th:action="@{/admin/san-pham}" th:object="${editProductDTO}" method="post" enctype="multipart/form-data">
+                            <input type="hidden" th:field="*{product_id}" />
+                            <div class="mb-3">
+                                <label for="editName" class="form-label">Tên sản phẩm</label>
+                                <input type="text" class="form-control" id="editName" th:field="*{name}" required />
+                                <div class="text-danger" th:errors="*{name}"></div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="editPrice" class="form-label">Giá sản phẩm</label>
+                                <input type="number" class="form-control" id="editPrice" th:field="*{price}" step="0.01" required />
+                                <div class="text-danger" th:errors="*{price}"></div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="editSize" class="form-label">Kích thước</label>
+                                <input type="text" class="form-control" id="editSize" th:field="*{size}" />
+                                <div class="text-danger" th:errors="*{size}"></div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="editStockQuantity" class="form-label">Hàng trong kho</label>
+                                <input type="number" class="form-control" id="editStockQuantity" th:field="*{stock_quantity}" required />
+                                <div class="text-danger" th:errors="*{stock_quantity}"></div>
+                            </div>
+                            <div class="mb-3 form-check">
+                                <input type="checkbox" class="form-check-input" id="editIsActive" th:field="*{is_active}" />
+                                <label class="form-check-label" for="editIsActive">Đang bán</label>
+                            </div>
+                            <div class="mb-3">
+                                <label for="editMaterial" class="form-label">Chất liệu</label>
+                                <input type="text" class="form-control" id="editMaterial" th:field="*{material}" />
+                                <div class="text-danger" th:errors="*{material}"></div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="editDiscount" class="form-label">Giảm giá (%)</label>
+                                <input type="number" class="form-control" id="editDiscount" th:field="*{discount}" step="0.01" />
+                                <div class="text-danger" th:errors="*{discount}"></div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="editPrimaryImageFile" class="form-label">Primary Image Upload</label>
+                                <input type="file" class="form-control" id="editPrimaryImageFile" name="primaryImageFile" accept="image/*" />
+                                <input type="text" class="form-control mt-2" th:field="*{primary_image}" placeholder="Or enter image URL" />
+                                <img th:src="@{${editProductDTO.primary_image}}" class="image-preview" id="editPrimaryImagePreview" th:if="${editProductDTO.primary_image != null}" alt="Primary Image Preview" style="max-width: 150px; margin-top: 10px;" />
+                                <div class="text-danger" th:errors="*{primary_image}"></div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="editCategoryId" class="form-label">Category ID</label>
+                                <input type="number" class="form-control" id="editCategoryId" th:field="*{category_id}" required />
+                                <div class="text-danger" th:errors="*{category_id}"></div>
+                            </div>
+                            <div class="mb-3">
+                                <h5>Ảnh</h5>
+                                <div id="editImages">
+                                    <div th:if="${#lists.isEmpty(editProductDTO.product_images)}">
+                                        <p>No images available. Add new images below.</p>
+                                    </div>
+                                    <div th:each="image, iterStat : ${editProductDTO.product_images}" class="image-group mb-2" th:id="'editImageGroup' + ${iterStat.index}">
+                                        <input type="hidden" th:field="*{product_images[__${iterStat.index}__].image_id}" />
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" th:field="*{product_images[__${iterStat.index}__].image_url}" placeholder="Image URL" />
+                                            <select class="form-select" th:field="*{product_images[__${iterStat.index}__].is_primary}">
+                                                <option value="true">Primary</option>
+                                                <option value="false">Not Primary</option>
+                                            </select>
+                                            <button type="button" class="btn btn-outline-danger btn-sm ms-2" th:onclick="'removeEditImageField(' + ${iterStat.index} + ')'"><i class="bi bi-trash"></i></button>
+                                        </div>
+                                        <input type="file" class="form-control mt-2" name="productImageFiles" accept="image/*" />
+                                        <img th:src="@{${image.image_url}}" class="image-preview" th:id="'editImagePreview' + ${iterStat.index}" th:if="${image.image_url != null}" alt="Image Preview" style="max-width: 150px; margin-top: 10px;" />
+                                        <div class="text-danger" th:errors="*{product_images[__${iterStat.index}__].image_url}"></div>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn btn-outline-secondary btn-sm mt-2" onclick="addEditImageField()">Add Image</button>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
+</main>
 
-</main><!-- End #main -->
-
-<!-- ======= Footer ======= -->
 <footer id="footer" class="footer">
     <div class="copyright">
-        &copy; Copyright <strong><span>NiceAdmin</span></strong>. All Rights Reserved
+        © Copyright <strong><span>NiceAdmin</span></strong>. All Rights Reserved
     </div>
     <div class="credits">
-        <!-- All the links in the footer should remain intact. -->
-        <!-- You can delete the links only if you purchased the pro version. -->
-        <!-- Licensing information: https://bootstrapmade.com/license/ -->
-        <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
         Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
     </div>
-</footer><!-- End Footer -->
+</footer>
 
-<a href="#" class="back-to-top d-flex align-items-start justify-content-start"><i
-        class="bi bi-arrow-up-short"></i></a>
-
+<a href="#" class="back-to-top d-flex align-items-start justify-content-start"><i class="bi bi-arrow-up-short"></i></a>
 
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
+        // Handle material collapse
         document.querySelectorAll('div[data-bs-toggle="collapse"]').forEach(function (div) {
             div.addEventListener('click', function () {
-                // Hide the "Xem thêm" link
-                const link = div.querySelector('a.text-primary');
-                if (link) {
-                    link.style.display = 'none';
-                }
-                // Hide the truncated text
                 const truncatedText = div.querySelector('span[id^="material"]');
                 if (truncatedText) {
                     truncatedText.style.display = 'none';
                 }
             });
         });
+
+        // Show modals based on server-side flags
+        if ([[${showCreateModal}]] === true) {
+            const createModal = new bootstrap.Modal(document.getElementById('createProductModal'));
+            createModal.show();
+        }
+        if ([[${showEditModal}]] === true) {
+            const editModal = new bootstrap.Modal(document.getElementById('productModal'));
+            editModal.show();
+        }
+
+        // Handle create modal close
+        document.getElementById('createProductModal').addEventListener('hidden.bs.modal', function () {
+            document.querySelector('#createProductModal form').reset();
+            document.querySelectorAll('#createImages .image-preview').forEach(img => img.style.display = 'none');
+        });
+
+        // Handle edit modal close
+        document.getElementById('productModal').addEventListener('hidden.bs.modal', function () {
+            document.querySelector('#productModal form').reset();
+            document.querySelectorAll('#editImages .image-preview').forEach(img => img.style.display = 'none');
+            if (window.location.search.includes('editId')) {
+                window.location.href = '/admin/san-pham';
+            }
+        });
+
+        // Preview for create primary image
+        const createPrimaryImageInput = document.getElementById('createPrimaryImageFile');
+        const createPrimaryImagePreview = document.getElementById('createPrimaryImagePreview');
+        if (createPrimaryImageInput) {
+            createPrimaryImageInput.addEventListener('change', function () {
+                const file = this.files[0];
+                if (file && file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        createPrimaryImagePreview.src = e.target.result;
+                        createPrimaryImagePreview.style.display = 'block';
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    createPrimaryImagePreview.style.display = 'none';
+                }
+            });
+        }
+
+        // Preview for edit primary image
+        const editPrimaryImageInput = document.getElementById('editPrimaryImageFile');
+        const editPrimaryImagePreview = document.getElementById('editPrimaryImagePreview');
+        if (editPrimaryImageInput) {
+            editPrimaryImageInput.addEventListener('change', function () {
+                const file = this.files[0];
+                if (file && file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        editPrimaryImagePreview.src = e.target.result;
+                        editPrimaryImagePreview.style.display = 'block';
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    editPrimaryImagePreview.style.display = 'none';
+                }
+            });
+        }
+
+        // Preview for create additional images
+        function attachCreateImagePreviewListeners() {
+            document.querySelectorAll('#createImages input[type="file"][name="productImageFiles"]').forEach(function (input, index) {
+                input.addEventListener('change', function () {
+                    const preview = document.getElementById('createImagePreview' + index);
+                    const file = this.files[0];
+                    if (file && file.type.startsWith('image/')) {
+                        const reader = new FileReader();
+                        reader.onload = function (e) {
+                            preview.src = e.target.result;
+                            preview.style.display = 'block';
+                        };
+                        reader.readAsDataURL(file);
+                    } else {
+                        preview.style.display = 'none';
+                    }
+                });
+            });
+        }
+
+        // Preview for edit additional images
+        function attachEditImagePreviewListeners() {
+            document.querySelectorAll('#editImages input[type="file"][name="productImageFiles"]').forEach(function (input, index) {
+                input.addEventListener('change', function () {
+                    const preview = document.getElementById('editImagePreview' + index);
+                    const file = this.files[0];
+                    if (file && file.type.startsWith('image/')) {
+                        const reader = new FileReader();
+                        reader.onload = function (e) {
+                            preview.src = e.target.result;
+                            preview.style.display = 'block';
+                        };
+                        reader.readAsDataURL(file);
+                    } else {
+                        preview.style.display = 'none';
+                    }
+                });
+            });
+        }
+
+        // Attach preview listeners for existing inputs
+        attachCreateImagePreviewListeners();
+        attachEditImagePreviewListeners();
     });
+
+    function addCreateImageField() {
+        const index = document.querySelectorAll('#createImages > .image-group').length;
+        const div = document.createElement('div');
+        div.className = 'image-group mb-2';
+        div.id = 'createImageGroup' + index;
+        div.innerHTML = `
+            <div class="input-group">
+                <input type="text" class="form-control" name="product_images[${index}].image_url" placeholder="Image URL" />
+                <select class="form-select" name="product_images[${index}].is_primary">
+                    <option value="true">Primary</option>
+                    <option value="false">Not Primary</option>
+                </select>
+                <button type="button" class="btn btn-outline-danger btn-sm ms-2" onclick="removeCreateImageField(${index})"><i class="bi bi-trash"></i></button>
+            </div>
+            <input type="file" class="form-control mt-2" name="productImageFiles" accept="image/*" />
+            <img class="image-preview" id="createImagePreview${index}" style="max-width: 150px; margin-top: 10px; display: none;" alt="Image Preview" />
+        `;
+        document.getElementById('createImages').appendChild(div);
+
+        // Add preview listener for new file input
+        const fileInput = div.querySelector(`input[name="productImageFiles"]`);
+        const previewImg = div.querySelector(`#createImagePreview${index}`);
+        fileInput.addEventListener('change', function() {
+            const file = this.files[0];
+            if (file && file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    previewImg.src = e.target.result;
+                    previewImg.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            } else {
+                previewImg.style.display = 'none';
+            }
+        });
+    }
+
+    function removeCreateImageField(index) {
+        const element = document.getElementById('createImageGroup' + index);
+        if (element) {
+            element.remove();
+        }
+    }
+
+    function addEditImageField() {
+        const index = document.querySelectorAll('#editImages > .image-group').length;
+        const div = document.createElement('div');
+        div.className = 'image-group mb-2';
+        div.id = 'editImageGroup' + index;
+        div.innerHTML = `
+            <div class="input-group">
+                <input type="text" class="form-control" name="product_images[${index}].image_url" placeholder="Image URL" />
+                <select class="form-select" name="product_images[${index}].is_primary">
+                    <option value="true">Primary</option>
+                    <option value="false">Not Primary</option>
+                </select>
+                <button type="button" class="btn btn-outline-danger btn-sm ms-2" onclick="removeEditImageField(${index})"><i class="bi bi-trash"></i></button>
+            </div>
+            <input type="file" class="form-control mt-2" name="productImageFiles" accept="image/*" />
+            <img class="image-preview" id="editImagePreview${index}" style="max-width: 150px; margin-top: 10px; display: none;" alt="Image Preview" />
+        `;
+        document.getElementById('editImages').appendChild(div);
+
+        // Add preview listener for new file input
+        const fileInput = div.querySelector(`input[name="productImageFiles"]`);
+        const previewImg = div.querySelector(`#editImagePreview${index}`);
+        fileInput.addEventListener('change', function() {
+            const file = this.files[0];
+            if (file && file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    previewImg.src = e.target.result;
+                    previewImg.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            } else {
+                previewImg.style.display = 'none';
+            }
+        });
+    }
+
+    function removeEditImageField(index) {
+        const element = document.getElementById('editImageGroup' + index);
+        if (element) {
+            element.remove();
+        }
+    }
+
+    function toggleCheckboxes(source) {
+        const checkboxes = document.querySelectorAll('.product-checkbox');
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = source.checked;
+        });
+    }
 </script>
 </body>
-
 </html>

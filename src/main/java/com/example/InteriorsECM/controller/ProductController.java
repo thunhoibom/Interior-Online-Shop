@@ -1,6 +1,6 @@
 package com.example.InteriorsECM.controller;
 
-import com.example.InteriorsECM.dto.ProductDto;
+import com.example.InteriorsECM.dto.ProductDTO;
 import com.example.InteriorsECM.model.mysql.UserPrincipal;
 import com.example.InteriorsECM.service.AccessLogService;
 import com.example.InteriorsECM.service.ProductService;
@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,15 +30,14 @@ public class ProductController {
         // Log the access event
         Long userId = getUserIdFromAuthentication();
         String ipAddress = getClientIp(request);
-        System.out.println(" IP Address: " + ipAddress);
-        System.out.println(" user id: " + userId);
+
         accessLogService.logAccessEvent(userId, "view_menu", ipAddress, true);
         return "index";
     }
 
     @GetMapping("/menu/products")
     public String products(@RequestParam(value = "name", required = false) String productName, Model model){
-        List<ProductDto> products = productName == null ?
+        List<ProductDTO> products = productName == null ?
                                     productService.findAllProducts()
                                     :productService.searchProductsByName(productName);
         model.addAttribute("products", products);
@@ -47,7 +45,7 @@ public class ProductController {
     }
     @GetMapping("/menu/products/{productId}/product-detail")
     public String productDetail(@PathVariable("productId") int product_id, Model model){
-        ProductDto productDto = productService.findProductById(product_id);
+        ProductDTO productDto = productService.findProductById(product_id);
         model.addAttribute("product", productDto);
         return "product-detail";
     }

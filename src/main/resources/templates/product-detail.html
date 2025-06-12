@@ -14,7 +14,7 @@
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com" rel="preconnect">
   <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Amatic+SC:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Inter:wght@100;200;300;400;500;600;700;500;900&family=Amatic+SC:wght@400;700&display=swap" rel="stylesheet">
 
   <!-- Vendor CSS Files -->
   <link th:href="@{/assets/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
@@ -58,10 +58,10 @@
 <div class="container mt-5">
   <div class="row">
     <!-- Product Images -->
-    <div class="col-md-6 mb-4 d-flex" data-aos="fade-left" data-aos-duration="800" data-aos-offset="0">
+    <div class="col-md-6 mb-4 d-flex" data-aos="fade-left" data-aos-duration="500" data-aos-offset="0">
       <div class="me-3">
         <div th:each="image, iterStat : ${product.product_images}" class="mb-2"
-             data-aos="fade-up" data-aos-duration="800" data-aos-offset="0" th:data-aos-delay="${iterStat.index * 100}">
+             data-aos="fade-up" data-aos-duration="500" data-aos-offset="0" th:data-aos-delay="${iterStat.index * 100}">
           <img th:src="@{${image.image_url}}" alt="Thumbnail"
                th:class="${(iterStat.index == 0)} ? 'active thumbnail rounded w-auto' : 'thumbnail rounded w-auto'"
                onclick="changeImage(event, this.src)">
@@ -70,30 +70,30 @@
       <div>
         <img th:src="@{${product.product_images[0].image_url}}" alt="Product"
              class="img-fluid rounded mb-3 product-image" id="mainImage"
-             data-aos="zoom-in" data-aos-duration="800" data-aos-offset="0" data-aos-delay="200">
+             data-aos="zoom-in" data-aos-duration="500" data-aos-offset="0" data-aos-delay="200">
       </div>
     </div>
 
     <!-- Product Details -->
-    <div class="col-md-6" th:object="${product}" data-aos="fade-right" data-aos-duration="800" data-aos-offset="0">
-      <h4 class="mb-3" th:text="${product.name}" data-aos="fade-up" data-aos-duration="800" data-aos-offset="0" data-aos-delay="100"></h4>
-      <p class="text-muted mb-3" th:text="'MSP:' + *{product_id}" data-aos="fade-up" data-aos-duration="800" data-aos-offset="0" data-aos-delay="150"></p>
-      <div class="mb-3" data-aos="fade-up" data-aos-duration="800" data-aos-offset="0" data-aos-delay="200">
+    <div class="col-md-6" th:object="${product}" data-aos="fade-right" data-aos-duration="500" data-aos-offset="0">
+      <h4 class="mb-3" th:text="${product.name}" data-aos="fade-up" data-aos-duration="500" data-aos-offset="0" data-aos-delay="100"></h4>
+      <p class="text-muted mb-3" th:text="'MSP:' + *{product_id}" data-aos="fade-up" data-aos-duration="500" data-aos-offset="0" data-aos-delay="150"></p>
+      <div class="mb-3" data-aos="fade-up" data-aos-duration="500" data-aos-offset="0" data-aos-delay="200">
         <span class="h6 mb-0 mr-5">Kích thước: </span>
         <span class="text-muted" th:text="*{size}"></span>
       </div>
-      <div class="mb-3" data-aos="fade-up" data-aos-duration="800" data-aos-offset="0" data-aos-delay="250">
+      <div class="mb-3" data-aos="fade-up" data-aos-duration="500" data-aos-offset="0" data-aos-delay="250">
         <span class="h6 mb-0 mr-5">Vật liệu: </span>
         <span class="text-muted" th:text="*{material}"></span>
       </div>
-      <div class="mb-3" data-aos="fade-up" data-aos-duration="800" data-aos-offset="0" data-aos-delay="300">
+      <div class="mb-3" data-aos="fade-up" data-aos-duration="500" data-aos-offset="0" data-aos-delay="300">
         <span class="mb-0 mr-5" th:text="*{is_active}?'Hàng có sẵn':'Hàng không có sẵn'"></span>
       </div>
-      <div class="mb-3" data-aos="fade-up" data-aos-duration="800" data-aos-offset="0" data-aos-delay="350">
+      <div class="mb-3" data-aos="fade-up" data-aos-duration="500" data-aos-offset="0" data-aos-delay="350">
         <span class="h6 me-2" th:text="${#numbers.formatDecimal(product.price,0, 'COMMA', 0, 'POINT')}+'₫'"></span>
         <span class="text-muted"><s th:text="${#numbers.formatDecimal(product.price,0, 'COMMA', 0, 'POINT')}+'₫'"></s></span>
       </div>
-      <div class="mb-3" data-aos="fade-up" data-aos-duration="800" data-aos-offset="0" data-aos-delay="400">
+      <div class="mb-3" data-aos="fade-up" data-aos-duration="500" data-aos-offset="0" data-aos-delay="400">
         <i class="bi bi-star-fill text-warning"></i>
         <i class="bi bi-star-fill text-warning"></i>
         <i class="bi bi-star-fill text-warning"></i>
@@ -101,14 +101,14 @@
         <i class="bi bi-star-half text-warning"></i>
         <span class="ms-2">4.5 (120 reviews)</span>
       </div>
-      <div class="mb-4" data-aos="fade-up" data-aos-duration="800" data-aos-offset="0" data-aos-delay="450">
+      <div class="mb-4" data-aos="fade-up" data-aos-duration="500" data-aos-offset="0" data-aos-delay="450">
         <label for="quantity" class="form-label">Quantity:</label>
         <input type="number" class="form-control" id="quantity" value="1" min="1" style="width: 80px;">
       </div>
-      <button class="btn btn-dark btn-lg rounded-0 mb-3 me-2" data-aos="zoom-in" data-aos-duration="800" data-aos-offset="0" data-aos-delay="500">
+      <button class="btn btn-dark btn-lg rounded-0 mb-3 me-2" data-aos="zoom-in" data-aos-duration="500" data-aos-offset="0" data-aos-delay="500">
         <i class="bi bi-cart-plus"></i> Add to Cart
       </button>
-      <button class="btn btn-outline-secondary rounded-0 btn-lg mb-3" data-aos="zoom-in" data-aos-duration="800" data-aos-offset="0" data-aos-delay="550">
+      <button class="btn btn-outline-secondary rounded-0 btn-lg mb-3" data-aos="zoom-in" data-aos-duration="500" data-aos-offset="0" data-aos-delay="550">
         <i class="bi bi-heart"></i> Add to Wishlist
       </button>
     </div>
@@ -124,7 +124,7 @@
   // Initialize AOS
   document.addEventListener('DOMContentLoaded', function() {
     AOS.init({
-      duration: 800, // Default duration for all animations
+      duration: 500, // Default duration for all animations
       easing: 'ease-in-out', // Smooth easing for entrance
       once: false, // Allow animations to replay on scroll
       offset: 0 // Trigger animations immediately when element is at top of viewport

@@ -8,6 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class AccessLogServiceImpl implements AccessLogService {
@@ -28,10 +33,25 @@ public class AccessLogServiceImpl implements AccessLogService {
 
         try {
             accessLogRepository.save(log);
-            System.out.println("Log saved successfully");
         } catch (Exception e) {
             System.err.println("Error saving log: " + e.getMessage());
             e.printStackTrace();
         }
+    }
+    @Transactional("timescaleTransactionManager")
+    @Override
+    public Map<LocalDate, Long> getAccessCountByDate(Instant startTime, Instant endTime) {
+
+        // Chuyển endTime để bao gồm cả thời điểm cuối
+        endTime = endTime.plusMillis(1);
+        List<AccessLog> logs = accessLogRepository.findByTimestampBetween(startTime, endTime);
+
+        Map<LocalDate, Long> accessCount = logs.stream()
+                .collect(Collectors.groupingBy(
+                        log -> log.getTimestamp().atZone(ZoneId.of("+07:00")).toLocalDate(),
+                        Collectors.counting()
+                ));
+
+        return accessCount;
     }
 }

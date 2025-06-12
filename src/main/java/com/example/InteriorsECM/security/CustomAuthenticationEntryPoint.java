@@ -21,7 +21,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
         PrintWriter out = response.getWriter();
         out.println("<script type=\"text/javascript\">");
         out.println("alert('Bạn cần đăng nhập để tiếp tục');");
-        out.println("window.location.href = '/login/user';");
+        out.println("window.location.href = '/login/admin';");
         out.println("</script>");
         out.flush();
     }

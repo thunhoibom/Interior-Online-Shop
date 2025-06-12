@@ -8,7 +8,7 @@ public class Product_imageConverter {
         Product_imageDto product_imageDto = Product_imageDto.builder()
                 .image_id(product_image.getImage_id())
                 .image_url(product_image.getImage_url())
-                .is_primary(product_image.is_primary())
+                .is_primary(product_image.getIs_primary())
                 .build();
         return product_imageDto;
     }

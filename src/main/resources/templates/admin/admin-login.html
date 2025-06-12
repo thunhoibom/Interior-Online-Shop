@@ -13,8 +13,12 @@
   <!-- Font Awesome for icons -->
   <link th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css}" rel="stylesheet">
   <style>
-    .vh-100 {
-      min-height: 100vh;
+    html, body{
+      height: 100vh;
+    }
+    .v {
+      min-height: 100%;
+      position: relative;
     }
     .custom-alert {
         position: fixed;
@@ -25,7 +29,6 @@
         border: none;
         border-radius: 8px;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-
         font-weight: 500;
         padding: 1rem 1.5rem;
         animation: slideIn 0.5s ease-in-out;
@@ -33,7 +36,7 @@
     .custom-alert .btn-close {
         filter: invert(1); /* White close button */
     }
-     @keyframes slideIn {
+    @keyframes slideIn {
         from {
             transform: translateX(100%);
             opacity: 0;
@@ -53,25 +56,63 @@
             opacity: 0;
         }
     }
+    /* Live Background Styles with Darker Gradient Neon */
+    .live-background {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      background: linear-gradient(45deg, #990066, #006666, #660033, #003333);
+      background-size: 400% 400%;
+      animation: gradientShift 15s ease infinite;
+      overflow: hidden;
+    }
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+      animation: float 6s infinite ease-in-out;
+    }
+    @keyframes float {
+      0% { transform: translateY(100vh); opacity: 0.2; }
+      50% { opacity: 0.5; }
+      100% { transform: translateY(-100vh) translateX(20px); opacity: 0.2; }
+    }
+    .container {
+      position: relative;
+      max-width: 100%;
+      z-index: 2;
+    }
+    .card {
+      background: rgba(255, 255, 255, 0.95); /* Slightly transparent for effect */
+    }
   </style>
 </head>
 <body>
-<section class="vh-100" style="background-color: #1D3417;">
-  <!--    Alerts-->
+<section class="v">
+  <!-- Live Background -->
+  <div class="live-background" id="particleContainer"></div>
+
+  <!-- Alerts -->
   <div th:if="${error}" class="alert alert-danger custom-alert alert-dismissible fade show "
        id="loginAlert"
        role="alert">
     <span th:text="${error}"></span>
   </div>
-  <div class="container py-5 h-100">
-    <div class="row d-flex justify-content-center align-items-center h-100">
+  <div class="container py-5 ">
+    <div class="row d-flex justify-content-center align-items-center ">
       <div class="col-12 col-md-8 col-lg-6 col-xl-5">
         <div class="card shadow-2-strong" style="border-radius: 1rem;">
           <form class="card-body p-5 text-center" role="form" th:action="@{/login/admin}" method="post"
                 th:object="${user}" autocomplete="off">
-
             <h3 class="mb-5">ADMIN ĐĂNG NHẬP</h3>
-
             <div data-mdb-input-init class="form-outline" th:classappend="${#fields.hasErrors('username')}?'':'mb-4'">
               <input type="text" id="form1Example13" th:field="*{username}"
                      class="form-control form-control-lg"
@@ -82,7 +123,6 @@
                th:if="${#fields.hasErrors('username')}"></i>
             <span class="text-danger font-weight-light" th:if="${#fields.hasErrors('username')}"
                   th:errors="*{username}"></span>
-
             <div data-mdb-input-init class="form-outline" th:classappend="${#fields.hasErrors('password')}?'':'mb-4'">
               <input type="password" id="form1Example23" th:field="*{password}"
                      class="form-control form-control-lg"
@@ -103,13 +143,10 @@
                 <a th:href="@{/forgot-password}">Quên mật khẩu ?</a>
               </div>
             </div>
-
             <button data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg btn-block"
                     type="submit">ĐĂNG NHẬP
             </button>
-
             <hr class="my-4">
-
             <button data-mdb-button-init data-mdb-ripple-init class="btn btn-lg btn-block btn-primary"
                     style="background-color: #dd4b39;"
                     type="submit"><i class="fab fa-google me-2"></i> Đăng nhập với Google
@@ -136,8 +173,8 @@
   // Basic form submission handling
   function handleSubmit(event) {
     event.preventDefault();
-    const email = document.getElementById('typeEmailX-2').value;
-    const password = document.getElementById('typePasswordX-2').value;
+    const email = document.getElementById('form1Example13').value;
+    const password = document.getElementById('form1Example23').value;
     const remember = document.getElementById('form1Example3').checked;
     console.log('Login attempted', { email, password, remember });
     // Add your authentication logic here (e.g., API call)
@@ -157,16 +194,36 @@
     // Add Facebook OAuth logic here
     alert('Facebook Sign-In clicked!');
   }
-</script>
-<script th:if="${error}">
+
+  // Live Background Particle Effect
+  function createParticles() {
+    const container = document.getElementById('particleContainer');
+    const particleCount = 50;
+    for (let i = 0; i < particleCount; i++) {
+      const particle = document.createElement('div');
+      particle.className = 'particle';
+      const size = Math.random() * 10 + 5;
+      particle.style.width = `${size}px`;
+      particle.style.height = `${size}px`;
+      particle.style.left = `${Math.random() * 100}vw`;
+      particle.style.animationDuration = `${Math.random() * 4 + 4}s`;
+      particle.style.animationDelay = `${Math.random() * 6}s`;
+      container.appendChild(particle);
+    }
+  }
+
+  // Initialize particles on load
   document.addEventListener('DOMContentLoaded', function () {
-      var alertElement = document.getElementById('loginAlert');
+    createParticles();
+    var alertElement = document.getElementById('loginAlert');
+    if (alertElement) {
       setTimeout(function () {
-          alertElement.style.animation = 'slideOut 0.5s ease-in-out forwards';
-          setTimeout(function () {
-              alertElement.remove();
-          }, 500);
+        alertElement.style.animation = 'slideOut 0.5s ease-in-out forwards';
+        setTimeout(function () {
+          alertElement.remove();
+        }, 500);
       }, 3000);
+    }
   });
 </script>
 </body>
