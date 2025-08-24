@@ -105,9 +105,12 @@
         <label for="quantity" class="form-label">Quantity:</label>
         <input type="number" class="form-control" id="quantity" value="1" min="1" style="width: 80px;">
       </div>
-      <button class="btn btn-dark btn-lg rounded-0 mb-3 me-2" data-aos="zoom-in" data-aos-duration="500" data-aos-offset="0" data-aos-delay="500">
-        <i class="bi bi-cart-plus"></i> Add to Cart
-      </button>
+      <form th:action="@{/menu/gio-hang}" method="post">
+        <input type="hidden" name="product_id" th:value="${product.product_id}" />
+        <button type="submit" class="btn btn-dark btn-lg rounded-0 mb-3 me-2" >
+          <i class="bi bi-cart-plus"></i> Add to Cart
+        </button>
+      </form>
       <button class="btn btn-outline-secondary rounded-0 btn-lg mb-3" data-aos="zoom-in" data-aos-duration="500" data-aos-offset="0" data-aos-delay="550">
         <i class="bi bi-heart"></i> Add to Wishlist
       </button>

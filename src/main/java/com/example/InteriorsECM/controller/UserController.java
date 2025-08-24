@@ -43,7 +43,7 @@ public class UserController {
             return "register-page";
         }
         userService.registerUser(userDto);
-        return "redirect:/login";
+        return "redirect:/login/user";
     }
 
 

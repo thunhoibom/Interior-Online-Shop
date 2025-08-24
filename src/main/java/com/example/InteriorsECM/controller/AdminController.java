@@ -1,6 +1,8 @@
 package com.example.InteriorsECM.controller;
 
+import com.example.InteriorsECM.converter.ProductConverter;
 import com.example.InteriorsECM.dto.ProductDTO;
+import com.example.InteriorsECM.model.mysql.Product;
 import com.example.InteriorsECM.model.mysql.Product_image;
 import com.example.InteriorsECM.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -95,31 +97,43 @@ public class AdminController {
             @RequestParam(value = "productImageFiles", required = false) MultipartFile[] productImageFiles,
             Model model) {
         try {
-            // Handle primary image
+            // Xử lý ảnh đại diện (primary image)
             if (primaryImageFile != null && !primaryImageFile.isEmpty()) {
                 String fileName = saveImage(primaryImageFile);
                 createProductDTO.setPrimary_image("/assets/img/product_image/" + fileName);
             } else if (createProductDTO.getPrimary_image() == null || createProductDTO.getPrimary_image().isEmpty()) {
                 createProductDTO.setPrimary_image("");
-            } // Keep HTTP URL if provided
+            }
 
-            // Handle additional product images
+            // Xử lý danh sách ảnh phụ
             List<Product_image> productImages = createProductDTO.getProduct_images();
             if (productImages != null) {
                 for (int i = 0; i < productImages.size(); i++) {
                     Product_image image = productImages.get(i);
                     MultipartFile uploadedFile = (productImageFiles != null && i < productImageFiles.length) ? productImageFiles[i] : null;
+
                     if (uploadedFile != null && !uploadedFile.isEmpty()) {
                         String fileName = saveImage(uploadedFile);
                         image.setImage_url("/assets/img/product_image/" + fileName);
                     } else if (image.getImage_url() == null || image.getImage_url().isEmpty()) {
                         image.setImage_url("");
-                    } // Keep HTTP URL if provided
+                    }
                 }
             }
 
-            // Create product in the database
+            // Chuyển DTO sang entity
+            Product product = ProductConverter.mapToEntity(createProductDTO);
+
+            // Gán ngược Product cho từng ảnh phụ
+            if (product.getProduct_images() != null) {
+                for (Product_image image : product.getProduct_images()) {
+                    image.setProduct(product);
+                }
+            }
+
+            // Lưu vào database
             productService.createProduct(createProductDTO);
+
             return "redirect:/admin/san-pham";
         } catch (Exception e) {
             model.addAttribute("createError", "Error creating product: " + e.getMessage());
@@ -131,6 +145,7 @@ public class AdminController {
             return "admin/admin-pages/products-manager";
         }
     }
+
 
     @PostMapping("/san-pham")
     public String updateProduct(

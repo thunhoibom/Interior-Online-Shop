@@ -36,16 +36,26 @@ public class OrderManagementController {
         return "admin/orders/list";
     }
 
-    @GetMapping("/{id}")
-    public String viewOrder(@PathVariable int id, Model model) {
-        Order order = orderService.getOrderById(id);
-        model.addAttribute("order", order);
-        return "admin/orders/view";
-    }
+//    @GetMapping("/{id}")
+//    public String viewOrder(@PathVariable int id, Model model) {
+//        Order order = orderService.getOrderById(id);
+//        model.addAttribute("order", order);
+//        return "admin/orders/view";
+//    }
 
     @PostMapping("/{id}/update-status")
     public String updateOrderStatus(@PathVariable int id, @RequestParam String status) {
         orderService.updateOrderStatus(id, status);
         return "redirect:/admin/don-hang/" + id;
+    }
+
+    @GetMapping("/{id}")
+    public String viewOrderDetail(@PathVariable("id") int id, Model model) {
+        Order order = orderService.getOrderById(id);
+        if (order == null) {
+            return "redirect:/admin/don-hang?error=notfound";
+        }
+        model.addAttribute("order", order);
+        return "admin/order-detail";
     }
 }

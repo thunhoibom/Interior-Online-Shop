@@ -17,6 +17,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -80,5 +82,15 @@ public class OrderServiceImpl implements OrderService {
             User user = userDetails.getUser();
             cartService.clearCart(user.getUser_id());
         }
+    }
+
+
+
+    public Double calculateTotalRevenue() {
+        return orderRepository.calculateTotalRevenue();
+    }
+
+    public Double calculateRevenueByDateRange(LocalDateTime startDate, LocalDateTime endDate) {
+        return orderRepository.calculateRevenueByDateRange(startDate, endDate);
     }
 }

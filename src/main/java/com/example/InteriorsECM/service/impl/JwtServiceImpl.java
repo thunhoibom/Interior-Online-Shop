@@ -18,7 +18,7 @@ import java.util.Map;
 import java.util.function.Function;
 
 @Service
-public class JwtServiceImpl implements JwtService {
+public class  JwtServiceImpl implements JwtService {
     String jwtSecret;
 
     public JwtServiceImpl(){
